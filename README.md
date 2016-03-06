@@ -1,2 +1,2 @@
 # 2016-Official-Chong-Restructure
-Restructure of Chong 4.X branch and code
+A complete restructuring of the code and source control for the second competition of our team's 2016 FRC Season. 
