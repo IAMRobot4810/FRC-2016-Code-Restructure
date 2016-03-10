@@ -1,15 +1,37 @@
 /*
  * DriveSystem.h
  *
- *  Created on: Mar 7, 2016
+ *  Created on: Feb 7, 2016
  *      Author: 1750800404
+ *
+ *      Driving system for the robot
  */
 
-#ifndef SRC_SYSTEMS_DRIVESYSTEM_H_
-#define SRC_SYSTEMS_DRIVESYSTEM_H_
+#ifndef DRIVESYSTEM_H
+#define DRIVESYSTEM_H
 
+#include "CANTalon.h"
+#include "RobotDrive.h"
 
+class DriveSystem{
 
+public:
+	DriveSystem();
+	~DriveSystem();
 
+	CANTalon *flTal;
+	CANTalon *rlTal;
+	CANTalon *frTal;
+	CANTalon *rrTal;
+	RobotDrive *roboDrive;
 
-#endif /* SRC_SYSTEMS_DRIVESYSTEM_H_ */
+	void DriveArcade(float straight, float rotate);
+	void DriveTank(float left, float right);
+
+private:
+
+protected:
+
+};
+
+#endif /* SRC_DRIVESYSTEM_H_ */

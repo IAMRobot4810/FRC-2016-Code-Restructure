@@ -1,4 +1,10 @@
-#include "WPILib.h"
+#include "IterativeRobot.h"
+#include "SmartDashboard/SmartDashboard.h"
+#include "LiveWindow/LiveWindow.h"
+#include "SmartDashboard/SendableChooser.h"
+#include "USBCamera.h"
+#include "CameraServer.h"
+#include "systems/DriveSystem.h"
 
 class Robot: public IterativeRobot
 {
@@ -9,12 +15,28 @@ private:
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
 
+	USBCamera *camera;
+
+	~Robot(){
+		delete camera;
+	}
+
 	void RobotInit()
 	{
 		chooser = new SendableChooser();
 		chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
 		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
 		SmartDashboard::PutData("Auto Modes", chooser);
+
+		camera = new USBCamera("cam1", true);
+
+		camera->SetExposureManual(1);
+		camera->SetBrightness(1);
+		camera->SetSize(320, 240);camera->SetFPS(20.0);
+
+		CameraServer::GetInstance()->SetQuality(10);
+		CameraServer::GetInstance()->StartAutomaticCapture("cam1");
+
 	}
 
 

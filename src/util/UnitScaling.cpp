@@ -17,7 +17,7 @@ double linearScale(double in, double m, double b, bool negativesOpposite){
 	}
 }
 
-double autoLinearScale(double minIn, double maxIn, double maxIn, double maxOut, bool negativesOpposite){
+double autoLinearScale(double minIn, double maxIn, double minOut, double maxOut, bool negativesOpposite){
 	double out;
 	if(negativesOpposite == true){
 
@@ -31,7 +31,7 @@ double exponentialScale(double in, double exp, double multiple, double intercept
 
 }
 
-double autoExponentialScale(double minIn, double maxIn, double maxIn, double maxOut, bool negativesOpposite){
+double autoExponentialScale(double minIn, double maxIn, double minOut, double maxOut, double power, bool negativesOpposite){
 
 }
 
