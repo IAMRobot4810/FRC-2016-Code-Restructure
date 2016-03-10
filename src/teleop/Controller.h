@@ -17,7 +17,7 @@ public:
 	Controller(int id);
 	~Controller();
 
-	Joystick *cont;
+	Joystick *stick;
 	JoystickButton *aButton;
 	JoystickButton *bButton;
 	JoystickButton *xButton;

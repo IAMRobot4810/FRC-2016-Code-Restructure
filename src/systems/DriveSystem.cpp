@@ -17,7 +17,7 @@ DriveSystem::DriveSystem(){
 	roboDrive->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
-	roboDrive->SetExpiration(0.1);
+	roboDrive->SetSafetyEnabled(false);
 }
 
 DriveSystem::~DriveSystem(){

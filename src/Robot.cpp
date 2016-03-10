@@ -32,7 +32,8 @@ private:
 
 		camera->SetExposureManual(1);
 		camera->SetBrightness(1);
-		camera->SetSize(320, 240);camera->SetFPS(20.0);
+		camera->SetSize(320, 240);
+		camera->SetFPS(20.0);
 
 		CameraServer::GetInstance()->SetQuality(10);
 		CameraServer::GetInstance()->StartAutomaticCapture("cam1");
