@@ -1,21 +1,21 @@
 /*
- * Controller.h
+ * StickControl.h
  *
  *  Created on: Mar 9, 2016
  *      Author: 1750800404
  */
 
-#ifndef SRC_TELEOP_CONTROLLER_H_
-#define SRC_TELEOP_CONTROLLER_H_
+#ifndef SRC_TELEOP_STICKCONTROL_H_
+#define SRC_TELEOP_STICKCONTROL_H_
 
 #include "Joystick.h"
 #include "Buttons/JoystickButton.h"
 
-class Controller{
+class StickControl{
 
 public:
-	Controller(int id);
-	~Controller();
+	StickControl(int id);
+	~StickControl();
 
 	Joystick *stick;
 	JoystickButton *aButton;
@@ -53,4 +53,4 @@ protected:
 
 };
 
-#endif /* SRC_TELEOP_CONTROLLER_H_ */
+#endif /* SRC_TELEOP_STICKCONTROL_H_ */

@@ -1,13 +1,13 @@
 /*
- * Controller.cpp
+ * StickControl.cpp
  *
  *  Created on: Mar 9, 2016
  *      Author: 1750800404
  */
 
-#include "Controller.h"
+#include "StickControl.h"
 
-Controller::Controller(int id){
+StickControl::StickControl(int id){
 	stick = new Joystick(id);
 	aButton = new JoystickButton(stick, 1);
 	bButton = new JoystickButton(stick, 2);
@@ -21,7 +21,7 @@ Controller::Controller(int id){
 	backButton = new JoystickButton(stick, 7);
 }
 
-Controller::~Controller(){
+StickControl::~StickControl(){
 	delete stick;
 	delete aButton;
 	delete bButton;
@@ -35,70 +35,70 @@ Controller::~Controller(){
 	delete backButton;
 }
 
-bool Controller::aButtonGet(){
+bool StickControl::aButtonGet(){
 	return aButton->Get();
 }
 
-bool Controller::bButtonGet(){
+bool StickControl::bButtonGet(){
 	return bButton->Get();
 }
 
-bool Controller::xButtonGet(){
+bool StickControl::xButtonGet(){
 	return xButton->Get();
 }
 
-bool Controller::yButtonGet(){
+bool StickControl::yButtonGet(){
 	return yButton->Get();
 }
 
-bool Controller::rBumperGet(){
+bool StickControl::rBumperGet(){
 	return rBumper->Get();
 }
 
-bool Controller::lBumperGet(){
+bool StickControl::lBumperGet(){
 	return lBumper->Get();
 }
 
-bool Controller::rStickPress(){
+bool StickControl::rStickPress(){
 	return rStickButton->Get();
 }
 
-bool Controller::lStickPress(){
+bool StickControl::lStickPress(){
 	return lStickButton->Get();
 }
 
-bool Controller::startButtonGet(){
+bool StickControl::startButtonGet(){
 	return startButton->Get();
 }
 
-bool Controller::backButtonGet(){
+bool StickControl::backButtonGet(){
 	return backButton->Get();
 }
 
-int Controller::getPOV(){
+int StickControl::getPOV(){
 	stick->GetPOV();
 }
 
-double Controller::getrStickX(){
+double StickControl::getrStickX(){
 	return stick->GetRawAxis(4);
 }
 
-double Controller::getrStickY(){
+double StickControl::getrStickY(){
 	return stick->GetRawAxis(5);
 }
 
-double Controller::getlStickX(){
+double StickControl::getlStickX(){
 	return stick->GetRawAxis(0);
 }
 
-double Controller::getlStickY(){
+double StickControl::getlStickY(){
 	return stick->GetRawAxis(1);
 }
 
-double Controller::getrTrig(){
+double StickControl::getrTrig(){
 	return stick->GetRawAxis(3);
 }
 
-double Controller::getlTrig(){
+double StickControl::getlTrig(){
 	return stick->GetRawAxis(2);
 }
