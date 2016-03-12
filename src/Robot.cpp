@@ -4,7 +4,7 @@
 #include "SmartDashboard/SendableChooser.h"
 #include "USBCamera.h"
 #include "CameraServer.h"
-#include "systems/DriveSystem.h"
+#include "teleop/Teleop.h"
 
 class Robot: public IterativeRobot
 {
@@ -16,9 +16,11 @@ private:
 	std::string autoSelected;
 
 	USBCamera *camera;
+	Teleop *tele;
 
 	~Robot(){
 		delete camera;
+		delete tele;
 	}
 
 	void RobotInit()
@@ -28,15 +30,17 @@ private:
 		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
 		SmartDashboard::PutData("Auto Modes", chooser);
 
-		camera = new USBCamera("cam1", true);
+		camera = new USBCamera("cam0", true);
 
 		camera->SetExposureManual(1);
 		camera->SetBrightness(1);
-		camera->SetSize(320, 240);camera->SetFPS(20.0);
+		camera->SetSize(320, 240);
+		camera->SetFPS(20.0);
 
 		CameraServer::GetInstance()->SetQuality(10);
-		CameraServer::GetInstance()->StartAutomaticCapture("cam1");
+		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
 
+		tele = new Teleop();
 	}
 
 
@@ -78,7 +82,7 @@ private:
 
 	void TeleopPeriodic()
 	{
-
+		tele->TeleopNoSensors();
 	}
 
 	void TestPeriodic()

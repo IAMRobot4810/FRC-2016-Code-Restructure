@@ -10,9 +10,9 @@
 #ifndef SRC_UTIL_DEADBAND_H_
 #define SRC_UTIL_DEADBAND_H_
 
-#include "Joystick.h"
+#include "teleop/StickControl.h"
 
-float SetDeadbands(float lowLimit, float highLimit, Joystick stick, int axis);
-float StickIn;
+//Setting dead bands for controller input
+float SetDeadbands(float lowLimit, float highLimit, StickControl *control, int axisid);
 
 #endif /* SRC_UTIL_DEADBAND_H_ */

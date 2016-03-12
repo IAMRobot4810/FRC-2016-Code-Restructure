@@ -10,12 +10,14 @@
 #ifndef SRC_UTIL_UNITSCALING_H_
 #define SRC_UTIL_UNITSCALING_H_
 
+#include <cmath>
+
 //Linear scaling function. "negativesOpposite" is true if you want negative inputs to be the same as positive, just negative, and is useful when setting "b".
 double linearScale(double in, double m, double b, bool negativesOpposite);
-double autoLinearScale(double minIn, double maxIn, double minOut, double maxOut, bool negativesOpposite);
+double autoLinearScale(double in, double minIn, double maxIn, double minOut, double maxOut);
 
 //Exponential scaling function. "negativesOpposite" functions the same as above.
-double exponentialScale(double in, double exp, double multiple, double intercept, bool negativesOpposite);
-double autoExponentialScale(double minIn, double maxIn, double minOut, double maxOut, double power, bool negativesOpposite);
+double exponentialScale(double in, int exp, double multiple, double intercept, bool negativesOpposite);
+double autoExponentialScale(double in, double minIn, double maxIn, double minOut, double maxOut, double power);
 
 #endif /* SRC_UTIL_UNITSCALING_H_ */
