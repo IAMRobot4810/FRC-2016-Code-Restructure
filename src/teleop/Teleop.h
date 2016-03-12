@@ -10,13 +10,24 @@
 #ifndef SRC_TELEOP_TELEOP_H_
 #define SRC_TELEOP_TELEOP_H_
 
-#include "InOut.h"
+#include "InOutConverter.h"
+#include "systems/DriveSystem.h"
 
 class Teleop{
 
 public:
 	Teleop();
 	~Teleop();
+
+	StickControl *controller1;
+	StickControl *controller2;
+	InOutConverter *conv1;
+	InOutConverter *conv2;
+
+	DriveSystem *drive;
+
+	void TeleopNoSensors();
+	void TeleopWithSensors();
 
 private:
 protected:

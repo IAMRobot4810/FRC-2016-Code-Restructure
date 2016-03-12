@@ -17,13 +17,11 @@
 class InOutConverter{
 
 public:
-	InOutConverter(StickControl *cont);
+	InOutConverter();
 	~InOutConverter();
 
-	StickControl *cont;
-
-	double stickOut(int axis);
-	double trigOut(int axis);
+	double stickOut(StickControl *cont, int axis);
+	double trigOut(StickControl *cont, int axis);
 
 private:
 protected:
