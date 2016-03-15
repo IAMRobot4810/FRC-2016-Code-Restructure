@@ -1,6 +1,7 @@
-.metadata
 *~
 *.save*
+
+Debug/
 
 bin/
 tmp/
@@ -9,11 +10,14 @@ tmp/
 *.swp
 *~.nib
 local.properties
+build.properties
+build.xml
 .settings/
 .loadpath
 .recommenders
 
 # Eclipse Core
+.cproject
 .project
 
 # External tool builders
