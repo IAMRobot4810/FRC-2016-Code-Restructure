@@ -117,14 +117,12 @@ void Shooter::LowerNoSensors(float speed){
 void Shooter::BombShotAim(float speed){
 	if(raiseShoot->GetEncPosition() > 10100){
 		while(raiseShoot->GetEncPosition() > 10100){
-			//raiseShoot->Set(-speed);
 			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), 10100, raiseShooterP, speed, -speed));
 		}
 		raiseShoot->Set(0.0);
 	}
 	else if (raiseShoot->GetEncPosition() < 10000){
 		while(raiseShoot->GetEncPosition() < 10000){
-			//raiseShoot->Set(speed);
 			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), 10000, raiseShooterP, speed, -speed));
 		}
 		raiseShoot->Set(0.0);
@@ -138,14 +136,12 @@ void Shooter::BombShotAim(float speed){
 void Shooter::TurretShotAim(float speed){
 	if(raiseShoot->GetEncPosition() > 5100){
 		while(raiseShoot->GetEncPosition() > 5100){
-			//raiseShoot->Set(-speed);
 			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), 5100, raiseShooterP, speed, -speed));
 		}
 		raiseShoot->Set(0.0);
 	}
 	else if (raiseShoot->GetEncPosition() < 5000){
 		while(raiseShoot->GetEncPosition() < 5000){
-			//raiseShoot->Set(speed);
 			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), 5000, raiseShooterP, speed, -speed));
 		}
 		raiseShoot->Set(0.0);
@@ -168,12 +164,13 @@ void Shooter::LowGoalAim(float speed){
 	}
 }
 
-float Shooter::ReadRPM(DigitalInput *banner, Timer *Minute, float rpmReading){
+float Shooter::ReadRPM(DigitalInput *banner, Timer *time){
+	float rpmReading;
 	bool bannerToggle = true;
 	int reads = 0;
-	Minute->Reset();
-	Minute->Start();
-	while(Minute->Get() <= 0.05){
+	time->Reset();
+	time->Start();
+	while(time->Get() <= 0.05){
 		if(banner->Get() == false && bannerToggle){
 			bannerToggle = false;
 			reads++;
@@ -182,12 +179,12 @@ float Shooter::ReadRPM(DigitalInput *banner, Timer *Minute, float rpmReading){
 			bannerToggle = true;
 		} //Test this
 	}
-	Minute->Stop();
+	time->Stop();
 	rpmReading = reads * 400; //1200
 	return rpmReading;
 }
 
-/*void Shooter::Shoot(int leftRPM, int rightRPM, float rollPow){
+void Shooter::Shoot(int leftRPM, int rightRPM, float rollPow){
 	lShooter->Set(0.1);
 	rShooter->Set(-0.1);
 	picker->Set(rollPow);
@@ -197,10 +194,10 @@ float Shooter::ReadRPM(DigitalInput *banner, Timer *Minute, float rpmReading){
 	if(rightRPM > 2400){
 		rightRPM = 2400;
 	}
-	for(int lPow = 0.1; ReadRPM(lBanner, rpmTimerL, lRPMReading) < (leftRPM - 200) || lPow <= 1.0; lPow += 0.1){
+	for(int lPow = 0.1; ReadRPM(lRPMSensor, rpmTimerL) < (leftRPM - 200) || lPow <= 1.0; lPow += 0.1){
 		lShooter->Set(lPow);
 	}
-	for(int rPow = 0.1; ReadRPM(rBanner, rpmTimerR, rRPMReading) < (rightRPM - 200) || rPow <= 1.0; rPow -= 0.1){
+	for(int rPow = 0.1; ReadRPM(rRPMSensor, rpmTimerR) < (rightRPM - 200) || rPow <= 1.0; rPow -= 0.1){
 		rShooter->Set(-rPow);
 	}
 	shootSol->Set(true);
@@ -209,7 +206,7 @@ float Shooter::ReadRPM(DigitalInput *banner, Timer *Minute, float rpmReading){
 	lShooter->Set(0.0);
 	rShooter->Set(0.0);
 	picker->Set(0.0);
-}*/
+}
 
 //Shoot when there's a sensor failure
 void Shooter::ShootNoSensors(float leftPow, float rightPow, float rollPow){
