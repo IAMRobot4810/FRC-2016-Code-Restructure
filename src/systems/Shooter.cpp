@@ -73,6 +73,13 @@ void Shooter::PickupNoSensors(float speed){
 }
 
 void Shooter::ResetRaiseEncoder(){
+	if(UpLimit->Get()){
+		raiseShoot->SetEncPosition(0);
+	}
+}
+
+//Reset the raising and lowering encoder manually
+void Shooter::ResetRaiseEncoderManual(){
 	raiseShoot->SetEncPosition(0);
 }
 
@@ -83,7 +90,6 @@ void Shooter::Raise(float speed){
 	}
 	else{
 		raiseShoot->Set(0.0);
-		ResetRaiseEncoder();
 	}
 }
 
@@ -109,15 +115,17 @@ void Shooter::LowerNoSensors(float speed){
 
 //Aim for the high goal from far
 void Shooter::BombShotAim(float speed){
-	if(raiseShoot->GetEncPosition() > 11000){
-		while(raiseShoot->GetEncPosition() > 11000){
-			raiseShoot->Set(-speed);
+	if(raiseShoot->GetEncPosition() > 10100){
+		while(raiseShoot->GetEncPosition() > 10100){
+			//raiseShoot->Set(-speed);
+			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), 10100, raiseShooterP, speed, -speed));
 		}
 		raiseShoot->Set(0.0);
 	}
 	else if (raiseShoot->GetEncPosition() < 10000){
 		while(raiseShoot->GetEncPosition() < 10000){
-			raiseShoot->Set(speed);
+			//raiseShoot->Set(speed);
+			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), 10000, raiseShooterP, speed, -speed));
 		}
 		raiseShoot->Set(0.0);
 	}
@@ -128,15 +136,17 @@ void Shooter::BombShotAim(float speed){
 
 //Aim for the high goal from close
 void Shooter::TurretShotAim(float speed){
-	if(raiseShoot->GetEncPosition() > 11000){
-		while(raiseShoot->GetEncPosition() > 11000){
-			raiseShoot->Set(-speed);
+	if(raiseShoot->GetEncPosition() > 5100){
+		while(raiseShoot->GetEncPosition() > 5100){
+			//raiseShoot->Set(-speed);
+			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), 5100, raiseShooterP, speed, -speed));
 		}
 		raiseShoot->Set(0.0);
 	}
-	else if (raiseShoot->GetEncPosition() < 10000){
-		while(raiseShoot->GetEncPosition() < 10000){
-			raiseShoot->Set(speed);
+	else if (raiseShoot->GetEncPosition() < 5000){
+		while(raiseShoot->GetEncPosition() < 5000){
+			//raiseShoot->Set(speed);
+			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), 5000, raiseShooterP, speed, -speed));
 		}
 		raiseShoot->Set(0.0);
 	}
@@ -145,6 +155,7 @@ void Shooter::TurretShotAim(float speed){
 	}
 }
 
+//Aim for the low goal
 void Shooter::LowGoalAim(float speed){
 	if(DownLimit->Get()){
 		while(DownLimit->Get()){
