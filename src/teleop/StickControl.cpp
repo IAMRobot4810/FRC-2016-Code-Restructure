@@ -76,7 +76,7 @@ bool StickControl::backButtonGet(){
 }
 
 int StickControl::getPOV(){
-	stick->GetPOV();
+	return stick->GetPOV();
 }
 
 double StickControl::getrStickX(){

@@ -8,10 +8,10 @@
 #include "DriveSystem.h"
 
 DriveSystem::DriveSystem(){
-	flTal = new CANTalon(1); //7
-	rlTal = new CANTalon(2); //8
-	frTal = new CANTalon(3); //5
-	rrTal = new CANTalon(4); //6
+	flTal = new CANTalon(7); //1
+	rlTal = new CANTalon(8); //2
+	frTal = new CANTalon(5); //3
+	rrTal = new CANTalon(6); //4
 	flTal->SetFeedbackDevice(CANTalon::QuadEncoder);
 	rlTal->SetFeedbackDevice(CANTalon::QuadEncoder);
 	frTal->SetFeedbackDevice(CANTalon::QuadEncoder);
@@ -21,6 +21,8 @@ DriveSystem::DriveSystem(){
 	roboDrive->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
+	gyro = new AnalogGyro(0);
+	gyro->InitGyro();
 	//roboDrive->SetSafetyEnabled(false);
 }
 
@@ -30,6 +32,11 @@ DriveSystem::~DriveSystem(){
 	delete frTal;
 	delete rrTal;
 	delete roboDrive;
+	delete gyro;
+}
+
+double DriveSystem::GyroAngleRead(){
+	return gyro->GetAngle();
 }
 
 void DriveSystem::DriveArcade(float straight, float rotate){
@@ -40,5 +47,21 @@ void DriveSystem::DriveTank(float left, float right){
 	roboDrive->TankDrive(left, right, false);
 }
 
-
+void DriveSystem::RotatetoAngle(double angle, double speed){
+	if(gyro->GetAngle() < angle){
+		while(gyro->GetAngle() < angle){
+			roboDrive->ArcadeDrive(0.0, PMotorPower(gyro->GetAngle(), angle, raiseShooterP, speed, -speed), false);
+		}
+		roboDrive->ArcadeDrive(0.0, 0.0, false);
+	}
+	else if(gyro->GetAngle() > angle){
+		while(gyro->GetAngle() < angle){
+			roboDrive->ArcadeDrive(0.0, PMotorPower(gyro->GetAngle(), angle, raiseShooterP, speed, -speed), false);
+		}
+		roboDrive->ArcadeDrive(0.0, 0.0, false);
+	}
+	else{
+		roboDrive->ArcadeDrive(0.0, 0.0, false);
+	}
+}
 
