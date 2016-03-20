@@ -50,13 +50,13 @@ void DriveSystem::DriveTank(float left, float right){
 void DriveSystem::RotatetoAngle(double angle, double speed){
 	if(gyro->GetAngle() < angle){
 		while(gyro->GetAngle() < angle){
-			roboDrive->ArcadeDrive(0.0, PMotorPower(gyro->GetAngle(), angle, raiseShooterP, speed, -speed), false);
+			roboDrive->ArcadeDrive(0.0, PMotorPower(gyro->GetAngle(), angle, turnAngleP, speed, -speed), false);
 		}
 		roboDrive->ArcadeDrive(0.0, 0.0, false);
 	}
 	else if(gyro->GetAngle() > angle){
 		while(gyro->GetAngle() < angle){
-			roboDrive->ArcadeDrive(0.0, PMotorPower(gyro->GetAngle(), angle, raiseShooterP, speed, -speed), false);
+			roboDrive->ArcadeDrive(0.0, PMotorPower(gyro->GetAngle(), angle, turnAngleP, speed, -speed), false);
 		}
 		roboDrive->ArcadeDrive(0.0, 0.0, false);
 	}

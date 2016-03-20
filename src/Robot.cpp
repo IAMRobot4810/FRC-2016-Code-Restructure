@@ -82,7 +82,7 @@ private:
 
 	void TeleopPeriodic()
 	{
-		tele->TeleopNoSensors();
+		tele->TeleopWithSensors();
 	}
 
 	void TestPeriodic()

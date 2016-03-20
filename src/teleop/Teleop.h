@@ -12,6 +12,8 @@
 
 #include "InOutConverter.h"
 #include "systems/DriveSystem.h"
+#include "systems/Shooter.h"
+#include "systems/DefenseArm.h"
 
 class Teleop{
 
@@ -25,6 +27,19 @@ public:
 	InOutConverter *conv2;
 
 	DriveSystem *drive;
+	Shooter *shoot;
+	DefenseArm *def;
+
+	bool aToggle;
+	bool bToggle;
+	bool xToggle;
+	bool yToggle;
+	bool rToggle;
+	bool lToggle;
+	bool rStickToggle;
+	bool lStickToggle;
+	bool startToggle;
+	bool backToggle;
 
 	void TeleopNoSensors();
 	void TeleopWithSensors();

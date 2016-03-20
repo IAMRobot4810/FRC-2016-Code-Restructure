@@ -10,8 +10,8 @@
 
 const double stickLowDead = -0.25; //Low end deadband for joystick
 const double stickHighDead = 0.25; //High end deadband for joystick
-const double stickOutSlope = 0.933333333333333; //Slope for linear scaling for stick input
-const double stickOutIntercept = -0.233333333333333; //Intercept offset for linear scaling for stick input
+const double stickOutSlope = 1.3333333333333333333333333333333;  //0.933333333333333; //Slope for linear scaling for stick input
+const double stickOutIntercept = -0.333333333333333333; //-0.233333333333333; //Intercept offset for linear scaling for stick input
 const double trigLowDead = 0.0; //Low end deadband for triggers
 const double trigHighDead = 0.25; //High end deadband for triggers
 const double trigInMin = 0.0; //Min input from trigger
