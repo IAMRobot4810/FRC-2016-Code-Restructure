@@ -10,8 +10,8 @@
 
 const double stickLowDead = -0.25; //Low end deadband for joystick
 const double stickHighDead = 0.25; //High end deadband for joystick
-const double stickOutSlope = 1.3333333333333333333333333333333;  //0.933333333333333; //Slope for linear scaling for stick input
-const double stickOutIntercept = -0.333333333333333333; //-0.233333333333333; //Intercept offset for linear scaling for stick input
+const double stickOutSlope = 1.333333333333333333;  //0.933333333333333; //Slope for linear scaling for stick input
+const double stickOutIntercept = -0.4; //-0.233333333333333; //Intercept offset for linear scaling for stick input
 const double trigLowDead = 0.0; //Low end deadband for triggers
 const double trigHighDead = 0.25; //High end deadband for triggers
 const double trigInMin = 0.0; //Min input from trigger
@@ -21,6 +21,8 @@ const double trigOutMax = 0.25; //Max output for trigger
 
 const double turnAngleP = 0.05; //P constant for turning to an angle PID
 
+const int maxShooterEnco = 20000; //Maximum shooter encoder value
+const int minShooterEnco = -20000; //Minimum shooter encoder value
 const double raiseShooterP = 0.0007; //P constant for raising the shooter PID
 const double shooterRampTime = 0.5; //Ramp up time when shooting without RPM sensors
 const double shooterWaitTime = 0.25; //Wait time after shooting ball before retracting cylinder without RPM sensors

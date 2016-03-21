@@ -164,6 +164,29 @@ void Shooter::LowGoalAim(float speed){
 	}
 }
 
+void Shooter::CustomAim(float speed, int encoVal){
+	if(encoVal < maxShooterEnco && encoVal > minShooterEnco){
+		if(raiseShoot->GetEncPosition() > (encoVal+50)){
+			while(raiseShoot->GetEncPosition() > (encoVal+50)){
+				raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), (encoVal+50), raiseShooterP, speed, -speed));
+			}
+			raiseShoot->Set(0.0);
+		}
+		else if (raiseShoot->GetEncPosition() < 5000){
+			while(raiseShoot->GetEncPosition() < 5000){
+				raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), encoVal, raiseShooterP, speed, -speed));
+			}
+			raiseShoot->Set(0.0);
+		}
+		else{
+			raiseShoot->Set(0.0);
+		}
+	}
+	else{
+		raiseShoot->Set(0.0);
+	}
+}
+
 float Shooter::ReadRPM(DigitalInput *banner, Timer *time){
 	float rpmReading;
 	bool bannerToggle = true;

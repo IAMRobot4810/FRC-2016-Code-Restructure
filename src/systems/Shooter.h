@@ -46,6 +46,7 @@ public:
 	void BombShotAim(float speed); //Aim for the high goal from far
 	void TurretShotAim(float speed); //Aim for the high goal from close
 	void LowGoalAim(float speed); //Aim for the low goal
+	void CustomAim(float speed, int encoVal); //Aim to a specific encoder value
 	float ReadRPM(DigitalInput *banner, Timer *time); //Read rotor RPM
 	void Shoot(int leftRPM, int rightRPM, float rollPow); //Shoot with RPM readings
 	void ShootNoSensors(float leftPow, float rightPow, float rollPow); //Shoot when there's a sensor failure

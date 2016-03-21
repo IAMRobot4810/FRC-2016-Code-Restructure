@@ -12,7 +12,8 @@
 
 #include "CANTalon.h"
 #include "RobotDrive.h"
-#include "AnalogGyro.h"
+#include "Timer.h"
+#include "GyroSensor.h"
 #include "util/PIDStuff.h"
 #include "util/ConstantVals.h"
 
@@ -27,12 +28,12 @@ public:
 	CANTalon *frTal;
 	CANTalon *rrTal;
 	RobotDrive *roboDrive;
-	AnalogGyro *gyro;
+	GyroSensor *gyr;
 
-	double GyroAngleRead();
 	void DriveArcade(float straight, float rotate);
 	void DriveTank(float left, float right);
 	void RotatetoAngle(double angle, double speed);
+	void TimeDrive(float straight, float rotate, int seconds);
 
 private:
 

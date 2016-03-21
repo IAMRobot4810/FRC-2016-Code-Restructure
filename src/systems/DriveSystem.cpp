@@ -21,9 +21,7 @@ DriveSystem::DriveSystem(){
 	roboDrive->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
-	gyro = new AnalogGyro(0);
-	gyro->InitGyro();
-	//roboDrive->SetSafetyEnabled(false);
+	gyr = new GyroSensor;
 }
 
 DriveSystem::~DriveSystem(){
@@ -32,11 +30,6 @@ DriveSystem::~DriveSystem(){
 	delete frTal;
 	delete rrTal;
 	delete roboDrive;
-	delete gyro;
-}
-
-double DriveSystem::GyroAngleRead(){
-	return gyro->GetAngle();
 }
 
 void DriveSystem::DriveArcade(float straight, float rotate){
@@ -48,20 +41,28 @@ void DriveSystem::DriveTank(float left, float right){
 }
 
 void DriveSystem::RotatetoAngle(double angle, double speed){
-	if(gyro->GetAngle() < angle){
-		while(gyro->GetAngle() < angle){
-			roboDrive->ArcadeDrive(0.0, PMotorPower(gyro->GetAngle(), angle, turnAngleP, speed, -speed), false);
+	if(gyr->GyroAngleRead() < angle){
+		while(gyr->GyroAngleRead() < angle){
+			roboDrive->ArcadeDrive(0.0, PMotorPower(gyr->GyroAngleRead(), angle, turnAngleP, speed, -speed), false);
 		}
 		roboDrive->ArcadeDrive(0.0, 0.0, false);
 	}
-	else if(gyro->GetAngle() > angle){
-		while(gyro->GetAngle() < angle){
-			roboDrive->ArcadeDrive(0.0, PMotorPower(gyro->GetAngle(), angle, turnAngleP, speed, -speed), false);
+	else if(gyr->GyroAngleRead() > angle){
+		while(gyr->GyroAngleRead() < angle){
+			roboDrive->ArcadeDrive(0.0, PMotorPower(gyr->GyroAngleRead(), angle, turnAngleP, speed, -speed), false);
 		}
 		roboDrive->ArcadeDrive(0.0, 0.0, false);
 	}
 	else{
 		roboDrive->ArcadeDrive(0.0, 0.0, false);
 	}
+}
+
+void DriveSystem::TimeDrive(float straight, float rotate, int seconds){
+	for(int i = 0; i <= (seconds/0.03); i++){
+		roboDrive->ArcadeDrive(straight, rotate, false);
+		Wait(0.03);
+	}
+	roboDrive->ArcadeDrive(0.0, 0.0, false);
 }
 
