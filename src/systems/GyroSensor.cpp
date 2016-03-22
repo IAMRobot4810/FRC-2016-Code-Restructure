@@ -10,9 +10,9 @@
 GyroSensor::GyroSensor(){
 	if(!one_obj){
 		gyro = new AnalogGyro(0);
-		gyro->InitGyro();
 		one_obj = true;
 	}
+	gyro->InitGyro();
 }
 
 GyroSensor::~GyroSensor(){

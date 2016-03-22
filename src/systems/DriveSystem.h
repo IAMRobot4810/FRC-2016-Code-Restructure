@@ -13,7 +13,7 @@
 #include "CANTalon.h"
 #include "RobotDrive.h"
 #include "Timer.h"
-#include "util/GyroSensor.h"
+#include "systems/GyroSensor.h"
 #include "util/PIDStuff.h"
 #include "util/ConstantVals.h"
 
