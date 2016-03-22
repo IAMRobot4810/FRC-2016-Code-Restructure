@@ -28,7 +28,7 @@ public:
 	CANTalon *frTal;
 	CANTalon *rrTal;
 	RobotDrive *roboDrive;
-	AnalogGyro *gyro;
+	AnalogGyro gyro;
 
 	double GyroAngleRead();
 	void DriveArcade(float straight, float rotate);

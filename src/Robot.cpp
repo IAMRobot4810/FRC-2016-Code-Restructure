@@ -5,6 +5,7 @@
 #include "USBCamera.h"
 #include "CameraServer.h"
 #include "teleop/Teleop.h"
+#include "auto/Auto.h"
 
 class Robot: public IterativeRobot
 {
@@ -17,10 +18,12 @@ private:
 
 	USBCamera *camera;
 	Teleop *tele;
+	Auto* auton;
 
 	~Robot(){
 		delete camera;
 		delete tele;
+		delete auton;
 	}
 
 	void RobotInit()
@@ -41,6 +44,7 @@ private:
 		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
 
 		tele = new Teleop();
+		auton = new Auto();
 	}
 
 
@@ -64,15 +68,19 @@ private:
 		} else {
 			//Default Auto goes here
 		}
+		//tele->drive->roboDrive->SetSafetyEnabled(false);
 	}
 
 	void AutonomousPeriodic()
 	{
+		//tele->drive->roboDrive->SetSafetyEnabled(false);
 		if(autoSelected == autoNameCustom){
 			//Custom Auto goes here
 		} else {
 			//Default Auto goes here
 		}
+		auton->AutonMode1();
+		//Wait(0.005);
 	}
 
 	void TeleopInit()

@@ -8,7 +8,17 @@
 #ifndef SRC_AUTO_AUTO_H_
 #define SRC_AUTO_AUTO_H_
 
+#include "AutonDrive.h"
+#include "systems/DriveSystem.h"
 
+class Auto{
+private:
+	AutonDrive* a_drive;
+public:
+	Auto(); //initialization
+	~Auto();
+	void AutonMode1();
+};
 
 
 
