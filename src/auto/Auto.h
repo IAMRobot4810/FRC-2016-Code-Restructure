@@ -10,6 +10,7 @@
 
 #include "AutonDrive.h"
 #include "systems/DriveSystem.h"
+#include "util/GyroSensor.h"
 
 class Auto{
 private:
