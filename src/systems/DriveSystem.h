@@ -13,7 +13,7 @@
 #include "CANTalon.h"
 #include "RobotDrive.h"
 #include "Timer.h"
-#include "GyroSensor.h"
+#include "util/GyroSensor.h"
 #include "util/PIDStuff.h"
 #include "util/ConstantVals.h"
 
@@ -36,6 +36,7 @@ public:
 	void TimeDrive(float straight, float rotate, int seconds);
 
 private:
+	const float delay = 0.03; //this is your increment...
 
 protected:
 

@@ -16,9 +16,8 @@ Auto::~Auto(){
 }
 
 void Auto::AutonMode1(){
-	a_drive->TimedDrive(1.5, 1.0, 1.0);
+	a_drive->TimedDrive(1.5, 0.1, 0.0);
 	Wait(0.005);
-	a_drive->RotatetoAngle((a_drive->gyro.GetAngle() + 30.0f), 0.1);
-	a_drive->DriveArcade(0.0, 0.0);
+	a_drive->DriveTank(0.0, 0.0);
 	Wait(15.0);
 }

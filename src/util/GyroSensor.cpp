@@ -8,8 +8,11 @@
 #include "GyroSensor.h"
 
 GyroSensor::GyroSensor(){
-	gyro = new AnalogGyro(0);
-	gyro->InitGyro();
+	if(!one_obj){
+		gyro = new AnalogGyro(0);
+		gyro->InitGyro();
+		one_obj = true;
+	}
 }
 
 GyroSensor::~GyroSensor(){

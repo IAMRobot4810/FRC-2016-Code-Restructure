@@ -7,7 +7,10 @@
 
 #include "Teleop.h"
 
-Teleop::Teleop(){
+Teleop::Teleop(): aToggle(true), bToggle(true), xToggle(true),
+yToggle(true), rToggle(true), lToggle(true), rStickToggle(true), lStickToggle(true),
+startToggle(true), backToggle(true)
+{
 	controller1 = new StickControl(0);
 	controller2 = new StickControl(1);
 	conv1 = new InOutConverter();
@@ -15,6 +18,7 @@ Teleop::Teleop(){
 	drive = new DriveSystem();
 	shoot = new Shooter();
 	def = new DefenseArm();
+	/*
 	bool aToggle = true;
 	bool bToggle = true;
 	bool xToggle = true;
@@ -25,6 +29,7 @@ Teleop::Teleop(){
 	bool lStickToggle = true;
 	bool startToggle = true;
 	bool backToggle = true;
+	*/
 }
 
 Teleop::~Teleop(){

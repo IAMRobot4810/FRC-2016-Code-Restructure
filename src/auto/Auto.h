@@ -15,6 +15,7 @@
 class Auto{
 private:
 	AutonDrive* a_drive;
+	//DriveSystem* auto_system;
 public:
 	Auto(); //initialization
 	~Auto();

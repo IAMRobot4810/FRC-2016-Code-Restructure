@@ -22,6 +22,7 @@ public:
 	void RecalGyro();
 
 private:
+	bool one_obj = false;
 protected:
 };
 
