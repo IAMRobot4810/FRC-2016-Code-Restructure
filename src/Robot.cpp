@@ -30,7 +30,7 @@ private:
 		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
 		SmartDashboard::PutData("Auto Modes", chooser);
 
-		camera = new USBCamera("cam0", true);
+		camera = new USBCamera("cam1", true);
 
 		camera->SetExposureManual(1);
 		camera->SetBrightness(1);
@@ -38,9 +38,10 @@ private:
 		camera->SetFPS(20.0);
 
 		CameraServer::GetInstance()->SetQuality(10);
-		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
+		CameraServer::GetInstance()->StartAutomaticCapture("cam1");
 
 		tele = new Teleop();
+		tele->def->Raise();
 	}
 
 
@@ -82,7 +83,8 @@ private:
 
 	void TeleopPeriodic()
 	{
-		tele->TeleopWithSensors();
+		//tele->TeleopWithSensors();
+		tele->TeleopNoSensors();
 	}
 
 	void TestPeriodic()

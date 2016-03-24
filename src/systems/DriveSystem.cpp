@@ -59,9 +59,9 @@ void DriveSystem::RotatetoAngle(double angle, double speed){
 }
 
 void DriveSystem::TimeDrive(float straight, float rotate, int seconds){
-	for(int i = 0; i <= (seconds/0.03); i++){
+	for(int i = 0; i <= (seconds/timeDriveWait); i++){
 		roboDrive->ArcadeDrive(straight, rotate, false);
-		Wait(0.03);
+		Wait(timeDriveWait);
 	}
 	roboDrive->ArcadeDrive(0.0, 0.0, false);
 }

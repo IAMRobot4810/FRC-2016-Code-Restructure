@@ -8,14 +8,14 @@
 #include "Shooter.h"
 
 Shooter::Shooter(){
-	raiseShoot = new CANTalon(4); //7
+	raiseShoot = new CANTalon(2); //7
 	raiseShoot->SetFeedbackDevice(CANTalon::CtreMagEncoder_Absolute);
 	UpLimit = new DigitalInput(4);
 	DownLimit = new DigitalInput(5);
 	ballSense = new DigitalInput(0); //3
 	shootSol = new Solenoid(1, 0);
 	lShooter = new CANTalon(1); //5
-	rShooter = new CANTalon (2); //6
+	rShooter = new CANTalon (4); //6
 	lRPMSensor = new DigitalInput(1);
 	rRPMSensor = new DigitalInput(2);
 	picker = new CANTalon(3); //8

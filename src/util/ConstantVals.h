@@ -20,6 +20,7 @@ const double trigOutMin = 0.0; //Min output for trigger
 const double trigOutMax = 0.25; //Max output for trigger
 
 const double turnAngleP = 0.05; //P constant for turning to an angle PID
+const double timeDriveWait = 0.03; //Wait time between loops for timed drive
 
 const int maxShooterEnco = 20000; //Maximum shooter encoder value
 const int minShooterEnco = -20000; //Minimum shooter encoder value
