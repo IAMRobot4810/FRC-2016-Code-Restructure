@@ -22,9 +22,12 @@ const double trigOutMax = 0.25; //Max output for trigger
 const double turnAngleP = 0.05; //P constant for turning to an angle PID
 const double timeDriveWait = 0.03; //Wait time between loops for timed drive
 
-const int maxShooterEnco = 20000; //Maximum shooter encoder value
-const int minShooterEnco = -20000; //Minimum shooter encoder value
-const double raiseShooterP = 0.0007; //P constant for raising the shooter PID
+const int maxShooterEnco = 3836; //Maximum shooter encoder value
+const int minShooterEnco = 0; //Minimum shooter encoder value
+const int turretEnco = 400; //Turret shot encoder value
+const int bombEnco = 1000; //Bomb shot encoder value
+const int shooterAimTolerance = 50; //Shooter aiming encoder tolerance
+const double raiseShooterP = 0.001; //P constant for raising the shooter PID
 const double shooterRampTime = 0.5; //Ramp up time when shooting without RPM sensors
 const double shooterWaitTime = 0.25; //Wait time after shooting ball before retracting cylinder without RPM sensors
 

@@ -41,6 +41,8 @@ public:
 	bool startToggle;
 	bool backToggle;
 
+	int currentEnco;
+
 	void TeleopNoSensors();
 	void TeleopWithSensors();
 

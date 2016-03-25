@@ -101,7 +101,7 @@ void Teleop::TeleopWithSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 5));
 
 	//Pick up the ball
-	if(controller2->getlStickY() <= 0){
+	if(controller2->getlStickY() >= 0){
 		shoot->Pickup(controller2->getlStickY());
 	}
 	else{
@@ -173,6 +173,9 @@ void Teleop::TeleopWithSensors(){
 	else{
 		shoot->raiseShoot->Set(0.0);
 	}
+
+	currentEnco = shoot->raiseShoot->GetEncPosition();
+	SmartDashboard::PutNumber("Encoder", currentEnco);
 
 	//Shoot
 	if(controller1->rBumperGet() && rToggle){

@@ -83,14 +83,15 @@ private:
 
 	void TeleopPeriodic()
 	{
-		//tele->TeleopWithSensors();
-		tele->TeleopNoSensors();
+		tele->TeleopWithSensors();
+		//tele->TeleopNoSensors();
 	}
 
 	void TestPeriodic()
 	{
 		lw->Run();
 	}
+
 };
 
 START_ROBOT_CLASS(Robot)
