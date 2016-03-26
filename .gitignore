@@ -12,6 +12,7 @@ tmp/
 local.properties
 build.properties
 build.xml
+sysProps.xml
 .settings/
 .loadpath
 .recommenders
