@@ -46,7 +46,7 @@ void Teleop::TeleopNoSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 5));
 
 	//Pick up the ball
-	if(controller2->getlStickY() <= 0){
+	if(controller2->getlStickY() >= 0){
 		shoot->PickupNoSensors(controller2->getlStickY());
 	}
 	else{
@@ -92,13 +92,22 @@ void Teleop::TeleopNoSensors(){
 		shoot->raiseShoot->Set(0.0);
 	}
 
-	//Shoot
+	//Shoot 100%
 	if(controller1->rBumperGet() && rToggle){
 		rToggle = false;
 		shoot->ShootNoSensors(0.95, 0.95, 0.95);
 	}
 	else if(controller1->rBumperGet() == false){
 		rToggle = true;
+	}
+
+	//Shoot 75%
+	if(controller1->lBumperGet() && lToggle){
+		rToggle = false;
+		shoot->ShootNoSensors(0.75, 0.75, 0.75);
+	}
+	else if(controller1->lBumperGet() == false){
+		lToggle = true;
 	}
 }
 
