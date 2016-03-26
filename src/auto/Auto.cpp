@@ -9,6 +9,7 @@
 
 Auto::Auto(){
 	a_drive = new AutonDrive();
+	a_drive->roboDrive->SetExpiration(0.10);
 }
 
 Auto::~Auto(){
@@ -16,9 +17,10 @@ Auto::~Auto(){
 }
 
 void Auto::AutonMode1(){
-	a_drive->TimedDrive(1.5, 0.1, 0.0);
-	Wait(0.005);
-	a_drive->DriveTank(0.0, 0.0);
+	a_drive->TimedDrive(2.0, 0.1, 0.0);
+	Wait(0.03);
+	a_drive->TimedDrive(2.0, 0.0, 0.0);
+	Wait(0.03);
+
 	//a_drive->RotatetoAngle((a_drive->gyr->GyroAngleRead() + 30), 0.1);
-	Wait(15.0);
 }

@@ -3,14 +3,20 @@
 
 #include "WPILib.h"
 #include "systems/DriveSystem.h"
+#include "systems/GyroSensor.h"
 
 class AutonDrive : public DriveSystem{
 private:
 	const float tick = 0.03;
-
+	GyroSensor *gyr;
 public:
-	void TimedDrive(float time, float lPower, float rPower);
+	AutonDrive();
+	~AutonDrive();
+
+	void TimedDrive(float time, float straight, float rotate);
 	void EncoDrive(int lEncoderVal, int rEncoderVal);
+
+	void RotateToAngle(double angle, double speed);
 };
 
 

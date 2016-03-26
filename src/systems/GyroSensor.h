@@ -14,6 +14,8 @@ class GyroSensor{
 
 public:
 	GyroSensor();
+	GyroSensor(int AnalogIO);
+	//GyroSensor(std::string str);
 	~GyroSensor();
 
 	AnalogGyro *gyro;
@@ -22,7 +24,7 @@ public:
 	void RecalGyro();
 
 private:
-	bool one_obj = false;
+
 protected:
 };
 

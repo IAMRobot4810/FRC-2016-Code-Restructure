@@ -8,10 +8,10 @@
 #include "DriveSystem.h"
 
 DriveSystem::DriveSystem(){
-	flTal = new CANTalon(7); //1
-	rlTal = new CANTalon(8); //2
-	frTal = new CANTalon(5); //3
-	rrTal = new CANTalon(6); //4
+	flTal = new CANTalon(7); //1, 7 practice
+	rlTal = new CANTalon(8); //2, 8 practice
+	frTal = new CANTalon(5); //3, 5 practice
+	rrTal = new CANTalon(6); //4, 6 practice
 	flTal->SetFeedbackDevice(CANTalon::QuadEncoder);
 	rlTal->SetFeedbackDevice(CANTalon::QuadEncoder);
 	frTal->SetFeedbackDevice(CANTalon::QuadEncoder);
@@ -21,7 +21,9 @@ DriveSystem::DriveSystem(){
 	roboDrive->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
-	gyr = new GyroSensor;
+
+	//roboDrive->SetExpiration(0.10);
+	//gyr = new GyroSensor(0);
 }
 
 DriveSystem::~DriveSystem(){
@@ -40,29 +42,6 @@ void DriveSystem::DriveTank(float left, float right){
 	roboDrive->TankDrive(left, right, false);
 }
 
-void DriveSystem::RotatetoAngle(double angle, double speed){
-	if(gyr->GyroAngleRead() < angle){
-		while(gyr->GyroAngleRead() < angle){
-			roboDrive->ArcadeDrive(0.0, PMotorPower(gyr->GyroAngleRead(), angle, turnAngleP, speed, -speed), false);
-		}
-		roboDrive->ArcadeDrive(0.0, 0.0, false);
-	}
-	else if(gyr->GyroAngleRead() > angle){
-		while(gyr->GyroAngleRead() < angle){
-			roboDrive->ArcadeDrive(0.0, PMotorPower(gyr->GyroAngleRead(), angle, turnAngleP, speed, -speed), false);
-		}
-		roboDrive->ArcadeDrive(0.0, 0.0, false);
-	}
-	else{
-		roboDrive->ArcadeDrive(0.0, 0.0, false);
-	}
-}
 
-void DriveSystem::TimeDrive(float straight, float rotate, int seconds){
-	for(int i = 0; i <= (seconds/delay); i++){
-		roboDrive->ArcadeDrive(straight, rotate, false);
-		Wait(0.03);
-	}
-	roboDrive->ArcadeDrive(0.0, 0.0, false);
-}
+
 

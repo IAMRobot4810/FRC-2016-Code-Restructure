@@ -7,6 +7,7 @@
 #include "teleop/Teleop.h"
 #include "auto/Auto.h"
 
+
 class Robot: public IterativeRobot
 {
 private:
@@ -16,12 +17,14 @@ private:
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
 
-	USBCamera *camera;
+	//USBCamera *camera;
 	Teleop *tele;
 	Auto* auton;
 
+	//bool runnable = true;
+
 	~Robot(){
-		delete camera;
+		//delete camera;
 		delete tele;
 		delete auton;
 	}
@@ -33,18 +36,25 @@ private:
 		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
 		SmartDashboard::PutData("Auto Modes", chooser);
 
-		camera = new USBCamera("cam0", true);
+
+
+		/*
+		camera = new USBCamera("cam1", true);
 
 		camera->SetExposureManual(1);
 		camera->SetBrightness(1);
 		camera->SetSize(320, 240);
 		camera->SetFPS(20.0);
 
+
 		CameraServer::GetInstance()->SetQuality(10);
 		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
+		*/
 
 		tele = new Teleop();
 		auton = new Auto();
+
+
 	}
 
 
@@ -68,19 +78,23 @@ private:
 		} else {
 			//Default Auto goes here
 		}
-		//tele->drive->roboDrive->SetSafetyEnabled(false);
+		//tele->drive->roboDrive->SetSafetyEnabled(false)
 	}
 
 	void AutonomousPeriodic()
 	{
 		//tele->drive->roboDrive->SetSafetyEnabled(false);
+		/*
 		if(autoSelected == autoNameCustom){
 			//Custom Auto goes here
 		} else {
 			//Default Auto goes here
 		}
+		*/
 		auton->AutonMode1();
-		//Wait(0.005);
+
+		Wait(0.03);
+		//Wait(15.0);
 	}
 
 	void TeleopInit()

@@ -28,7 +28,7 @@ public:
 	CANTalon *frTal;
 	CANTalon *rrTal;
 	RobotDrive *roboDrive;
-	GyroSensor *gyr;
+
 
 	void DriveArcade(float straight, float rotate);
 	void DriveTank(float left, float right);
@@ -36,7 +36,7 @@ public:
 	void TimeDrive(float straight, float rotate, int seconds);
 
 private:
-	const float delay = 0.03; //this is your increment...
+
 
 protected:
 
