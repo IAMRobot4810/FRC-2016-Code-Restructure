@@ -36,9 +36,12 @@ private:
 		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
 		SmartDashboard::PutData("Auto Modes", chooser);
 
+<<<<<<< HEAD
 
 
 		/*
+=======
+>>>>>>> master
 		camera = new USBCamera("cam1", true);
 
 		camera->SetExposureManual(1);
@@ -48,6 +51,7 @@ private:
 
 
 		CameraServer::GetInstance()->SetQuality(10);
+<<<<<<< HEAD
 		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
 		*/
 
@@ -55,6 +59,12 @@ private:
 		auton = new Auto();
 
 
+=======
+		CameraServer::GetInstance()->StartAutomaticCapture("cam1");
+
+		tele = new Teleop();
+		tele->def->Raise();
+>>>>>>> master
 	}
 
 
@@ -105,12 +115,14 @@ private:
 	void TeleopPeriodic()
 	{
 		tele->TeleopWithSensors();
+		//tele->TeleopNoSensors();
 	}
 
 	void TestPeriodic()
 	{
 		lw->Run();
 	}
+
 };
 
 START_ROBOT_CLASS(Robot)

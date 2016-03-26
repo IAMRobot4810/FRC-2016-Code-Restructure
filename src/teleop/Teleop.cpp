@@ -44,13 +44,69 @@ Teleop::~Teleop(){
 
 void Teleop::TeleopNoSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 5));
+
+	//Pick up the ball
+	if(controller2->getlStickY() <= 0){
+		shoot->PickupNoSensors(controller2->getlStickY());
+	}
+	else{
+		shoot->PickupNoSensors(0);
+	}
+
+	//To raise and lower the defense arm
+	if(controller2->bButtonGet() && bToggle){
+		bToggle = false;
+		if(def->Low == true){
+			def->Raise();
+		}
+		else{
+			def->Lower();
+		}
+	}
+	else if(controller2->bButtonGet() == false){
+		bToggle = true;
+	}
+	SmartDashboard::PutBoolean("Defense Arm Lowered", def->Low);
+
+	//Raise manually 50% speed
+	if(controller2->rBumperGet() && !controller2->lBumperGet() &&
+			controller2->getrTrig() < 0.25 && controller2->getlTrig() < 0.25){
+		shoot->RaiseNoSensors(0.5);
+	}
+	//Lower manually 50% speed
+	else if(controller2->lBumperGet() && !controller2->rBumperGet() &&
+			controller2->getrTrig() < 0.25 && controller2->getlTrig() < 0.25){
+		shoot->LowerNoSensors(0.5);
+	}
+	//Raise manually variable up to 25%
+	else if(!controller2->lBumperGet() && !controller2->rBumperGet() &&
+			controller2->getrTrig() >= 0.25 && controller2->getlTrig() < 0.25){
+		shoot->RaiseNoSensors(conv2->trigOut(controller2, 3));
+	}
+	//Lower manually variable up to 25%
+	else if(!controller2->lBumperGet() && !controller2->rBumperGet() &&
+			controller2->getrTrig() < 0.25 && controller2->getlTrig() >= 0.25){
+		shoot->LowerNoSensors(conv2->trigOut(controller2, 2));
+	}
+	else{
+		shoot->raiseShoot->Set(0.0);
+	}
+
+	//Shoot
+	if(controller1->rBumperGet() && rToggle){
+		rToggle = false;
+		shoot->ShootNoSensors(0.95, 0.95, 0.95);
+	}
+	else if(controller1->rBumperGet() == false){
+		rToggle = true;
+	}
 }
 
 void Teleop::TeleopWithSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 5));
 
 	//Pick up the ball
-	if(controller2->getlStickY() <= 0){
+	if(controller2->getlStickY() >= 0){
 		shoot->Pickup(controller2->getlStickY());
 	}
 	else{
@@ -70,6 +126,7 @@ void Teleop::TeleopWithSensors(){
 	else if(controller2->bButtonGet() == false){
 		bToggle = true;
 	}
+	SmartDashboard::PutBoolean("Defense Arm Lowered", def->Low);
 
 	//Aim low goal
 	if(controller2->aButtonGet() && aToggle){
@@ -120,5 +177,17 @@ void Teleop::TeleopWithSensors(){
 	}
 	else{
 		shoot->raiseShoot->Set(0.0);
+	}
+
+	currentEnco = shoot->raiseShoot->GetEncPosition();
+	SmartDashboard::PutNumber("Encoder", currentEnco);
+
+	//Shoot
+	if(controller1->rBumperGet() && rToggle){
+		rToggle = false;
+		shoot->ShootNoSensors(0.95, 0.95, 0.95);
+	}
+	else if(controller1->rBumperGet() == false){
+		rToggle = true;
 	}
 }

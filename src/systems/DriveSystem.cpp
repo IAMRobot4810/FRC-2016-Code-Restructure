@@ -21,9 +21,14 @@ DriveSystem::DriveSystem(){
 	roboDrive->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
+<<<<<<< HEAD
 
 	//roboDrive->SetExpiration(0.10);
 	//gyr = new GyroSensor(0);
+=======
+	roboDrive->SetExpiration(0.1);
+	gyr = new GyroSensor;
+>>>>>>> master
 }
 
 DriveSystem::~DriveSystem(){
@@ -43,5 +48,15 @@ void DriveSystem::DriveTank(float left, float right){
 }
 
 
+<<<<<<< HEAD
 
+=======
+void DriveSystem::TimeDrive(float straight, float rotate, int seconds){
+	for(int i = 0; i <= (seconds/timeDriveWait); i++){
+		roboDrive->ArcadeDrive(straight, rotate, false);
+		Wait(timeDriveWait);
+	}
+	roboDrive->ArcadeDrive(0.0, 0.0, false);
+}
+>>>>>>> master
 
