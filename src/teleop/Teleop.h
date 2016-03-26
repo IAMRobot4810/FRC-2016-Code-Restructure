@@ -19,6 +19,7 @@ class Teleop{
 
 public:
 	Teleop();
+
 	~Teleop();
 
 	StickControl *controller1;
