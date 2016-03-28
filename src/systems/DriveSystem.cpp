@@ -8,8 +8,8 @@
 #include "DriveSystem.h"
 
 DriveSystem::DriveSystem(){
-	flTal = new CANTalon(7); //1, 7 practice
-	rlTal = new CANTalon(8); //2, 8 practice
+	flTal = new CANTalon(2); //1, 7 practice
+	rlTal = new CANTalon(3); //2, 8 practice
 	frTal = new CANTalon(5); //3, 5 practice
 	rrTal = new CANTalon(6); //4, 6 practice
 	flTal->SetFeedbackDevice(CANTalon::QuadEncoder);

@@ -26,7 +26,7 @@ private:
 	~Robot(){
 		//delete camera;
 		delete tele;
-		delete auton;
+		//delete auton;
 	}
 
 	void RobotInit()
@@ -52,7 +52,7 @@ private:
 
 		*/
 
-		tele = new Teleop();
+
 		auton = new Auto();
 
 
@@ -105,7 +105,8 @@ private:
 
 	void TeleopInit()
 	{
-
+		delete auton;
+		tele = new Teleop();
 	}
 
 	void TeleopPeriodic()
