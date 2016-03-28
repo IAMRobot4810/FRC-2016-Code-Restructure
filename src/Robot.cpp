@@ -56,10 +56,9 @@ private:
 		auton = new Auto();
 
 
-
 		//CameraServer::GetInstance()->StartAutomaticCapture("cam1");
 
-		tele->def->Raise();
+		//tele->def->Raise();
 
 	}
 
