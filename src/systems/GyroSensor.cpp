@@ -8,15 +8,9 @@
 #include "GyroSensor.h"
 
 GyroSensor::GyroSensor(){
-	delete gyro;
-	gyro = NULL;
-}
-
-GyroSensor::GyroSensor(int AnalogIO){
-	gyro = new AnalogGyro(AnalogIO);
+	gyro = new AnalogGyro(0);
 	gyro->InitGyro();
 }
-
 
 GyroSensor::~GyroSensor(){
 	delete gyro;

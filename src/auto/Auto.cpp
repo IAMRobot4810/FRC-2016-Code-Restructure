@@ -8,19 +8,32 @@
 #include "Auto.h"
 
 Auto::Auto(){
-	a_drive = new AutonDrive();
-	a_drive->roboDrive->SetExpiration(0.10);
+	def = new DefenseArm();
+	drv = new DriveSystem();
+	sht = new Shooter();
 }
 
 Auto::~Auto(){
-	delete a_drive;
+	delete def;
+	delete drv;
+	delete sht;
 }
 
-void Auto::AutonMode1(){
-	a_drive->TimedDrive(2.0, 0.1, 0.0);
-	Wait(0.03);
-	a_drive->TimedDrive(2.0, 0.0, 0.0);
-	Wait(0.03);
+void Auto::RegularAuton(){
+	def->Lower();
+	Wait(0.5);
+	drv->TimeDrive(0.5, 0.0, 1.0);
+	Wait(0.25);
+	sht->Lower(0.75);
+	Wait(0.75);
+	sht->raiseShoot->Set(0.0);
+	drv->TimeDrive(0.75, 0.0, 2.5);
+	Wait(5.0);
+}
 
-	//a_drive->RotatetoAngle((a_drive->gyr->GyroAngleRead() + 30), 0.1);
+void Auto::TerrainAuton(){
+	def->Raise();
+	Wait(0.0);
+	sht->Raise(0.15);
+	drv->TimeDrive(0.75, 0.0, 5.0);
 }

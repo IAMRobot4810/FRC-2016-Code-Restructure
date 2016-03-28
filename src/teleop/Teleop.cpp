@@ -7,10 +7,7 @@
 
 #include "Teleop.h"
 
-Teleop::Teleop(): aToggle(true), bToggle(true), xToggle(true),
-yToggle(true), rToggle(true), lToggle(true), rStickToggle(true), lStickToggle(true),
-startToggle(true), backToggle(true)
-{
+Teleop::Teleop(){
 	controller1 = new StickControl(0);
 	controller2 = new StickControl(1);
 	conv1 = new InOutConverter();
@@ -18,7 +15,6 @@ startToggle(true), backToggle(true)
 	drive = new DriveSystem();
 	shoot = new Shooter();
 	def = new DefenseArm();
-	/*
 	bool aToggle = true;
 	bool bToggle = true;
 	bool xToggle = true;
@@ -29,7 +25,6 @@ startToggle(true), backToggle(true)
 	bool lStickToggle = true;
 	bool startToggle = true;
 	bool backToggle = true;
-	*/
 }
 
 Teleop::~Teleop(){
@@ -92,7 +87,7 @@ void Teleop::TeleopNoSensors(){
 		shoot->raiseShoot->Set(0.0);
 	}
 
-	//Shoot 100%
+	//Shoot 95%
 	if(controller1->rBumperGet() && rToggle){
 		rToggle = false;
 		shoot->ShootNoSensors(0.95, 0.95, 0.95);
@@ -190,13 +185,23 @@ void Teleop::TeleopWithSensors(){
 
 	currentEnco = shoot->raiseShoot->GetEncPosition();
 	SmartDashboard::PutNumber("Encoder", currentEnco);
+	SmartDashboard::PutNumber("PulseWidth", shoot->raiseShoot->GetPulseWidthPosition());
 
-	//Shoot
+	//Shoot 95%
 	if(controller1->rBumperGet() && rToggle){
 		rToggle = false;
 		shoot->ShootNoSensors(0.95, 0.95, 0.95);
 	}
 	else if(controller1->rBumperGet() == false){
 		rToggle = true;
+	}
+
+	//Shoot 75%
+	if(controller1->lBumperGet() && lToggle){
+		lToggle = false;
+		shoot->ShootNoSensors(0.75, 0.75, 0.75);
+	}
+	else if(controller1->lBumperGet() == false){
+		lToggle = true;
 	}
 }

@@ -8,20 +8,24 @@
 #ifndef SRC_AUTO_AUTO_H_
 #define SRC_AUTO_AUTO_H_
 
-#include "AutonDrive.h"
+#include "systems/DefenseArm.h"
 #include "systems/DriveSystem.h"
-#include "systems/GyroSensor.h"
+#include "systems/Shooter.h"
 
 class Auto{
-private:
-	AutonDrive* a_drive;
-	//DriveSystem* auto_system;
 public:
-	Auto(); //initialization
+	Auto();
 	~Auto();
-	void AutonMode1();
+
+	DefenseArm *def;
+	DriveSystem *drv;
+	Shooter *sht;
+
+	void RegularAuton();
+	void TerrainAuton();
+
+private:
+protected:
 };
-
-
 
 #endif /* SRC_AUTO_AUTO_H_ */

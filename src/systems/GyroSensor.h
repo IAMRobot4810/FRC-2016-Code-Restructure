@@ -5,8 +5,8 @@
  *      Author: 1750800404
  */
 
-#ifndef SRC_UTIL_GYROSENSOR_H_
-#define SRC_UTIL_GYROSENSOR_H_
+#ifndef SRC_SYSTEMS_GYROSENSOR_H_
+#define SRC_SYSTEMS_GYROSENSOR_H_
 
 #include "AnalogGyro.h"
 
@@ -14,8 +14,6 @@ class GyroSensor{
 
 public:
 	GyroSensor();
-	GyroSensor(int AnalogIO);
-	//GyroSensor(std::string str);
 	~GyroSensor();
 
 	AnalogGyro *gyro;
@@ -24,8 +22,7 @@ public:
 	void RecalGyro();
 
 private:
-
 protected:
 };
 
-#endif /* SRC_UTIL_GYROSENSOR_H_ */
+#endif /* SRC_SYSTEMS_GYROSENSOR_H_ */

@@ -13,7 +13,7 @@
 #include "CANTalon.h"
 #include "RobotDrive.h"
 #include "Timer.h"
-#include "systems/GyroSensor.h"
+#include "GyroSensor.h"
 #include "util/PIDStuff.h"
 #include "util/ConstantVals.h"
 
@@ -28,7 +28,7 @@ public:
 	CANTalon *frTal;
 	CANTalon *rrTal;
 	RobotDrive *roboDrive;
-
+	GyroSensor *gyr;
 
 	void DriveArcade(float straight, float rotate);
 	void DriveTank(float left, float right);
@@ -36,7 +36,6 @@ public:
 	void TimeDrive(float straight, float rotate, int seconds);
 
 private:
-
 
 protected:
 

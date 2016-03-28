@@ -7,37 +7,36 @@
 #include "teleop/Teleop.h"
 #include "auto/Auto.h"
 
-
 class Robot: public IterativeRobot
 {
 private:
 	LiveWindow *lw = LiveWindow::GetInstance();
 	SendableChooser *chooser;
-	const std::string autoNameDefault = "Default";
-	const std::string autoNameCustom = "My Auto";
+	const std::string autoNameLowBar = "Low Bar Auto";
+	const std::string autoNameTerrain = "Terrain Auto";
+	const std::string autoNameDefense = "Defense Auto";
+	const std::string autoNameSpy = "Spy Box Auto";
 	std::string autoSelected;
 
-	//USBCamera *camera;
+	USBCamera *camera;
 	Teleop *tele;
-	Auto* auton;
-
-	//bool runnable = true;
+	//Auto *auton;
 
 	~Robot(){
-		//delete camera;
+		delete camera;
 		delete tele;
-		delete auton;
+		//delete auton;
 	}
 
 	void RobotInit()
 	{
 		chooser = new SendableChooser();
-		chooser->AddDefault(autoNameDefault, (void*)&autoNameDefault);
-		chooser->AddObject(autoNameCustom, (void*)&autoNameCustom);
+		chooser->AddDefault(autoNameLowBar, (void*)&autoNameLowBar);
+		chooser->AddObject(autoNameTerrain, (void*)&autoNameTerrain);
+		chooser->AddObject(autoNameDefense, (void*)&autoNameDefense);
+		chooser->AddObject(autoNameSpy, (void*)&autoNameSpy);
 		SmartDashboard::PutData("Auto Modes", chooser);
 
-
-		/*
 		camera = new USBCamera("cam1", true);
 
 		camera->SetExposureManual(1);
@@ -45,22 +44,11 @@ private:
 		camera->SetSize(320, 240);
 		camera->SetFPS(20.0);
 
-
 		CameraServer::GetInstance()->SetQuality(10);
+		CameraServer::GetInstance()->StartAutomaticCapture("cam1");
 
-		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
-
-		*/
-
+		//auton = new Auto();
 		tele = new Teleop();
-		auton = new Auto();
-
-
-
-		//CameraServer::GetInstance()->StartAutomaticCapture("cam1");
-
-		tele->def->Raise();
-
 	}
 
 
@@ -79,28 +67,42 @@ private:
 		//std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
 		std::cout << "Auto selected: " << autoSelected << std::endl;
 
-		if(autoSelected == autoNameCustom){
+		if(autoSelected == autoNameTerrain){
 			//Custom Auto goes here
-		} else {
-			//Default Auto goes here
+			tele->shoot->Raise(0.5);
+			tele->drive->TimeDrive(0.75, 0.0, 4.0);
+			Wait(5.0);
 		}
-		//tele->drive->roboDrive->SetSafetyEnabled(false)
+		else if(autoSelected == autoNameDefense){
+
+		}
+		else if(autoSelected == autoNameSpy){
+			tele->def->Lower();
+			tele->shoot->BombShotAim(0.75);
+		}
+		else{
+			//Default Auto goes here
+			tele->def->Lower();
+			Wait(0.5);
+			tele->drive->TimeDrive(0.5, 0.0, 1.0);
+			Wait(0.25);
+			tele->shoot->Lower(0.75);
+			Wait(0.75);
+			tele->shoot->raiseShoot->Set(0.0);
+			tele->drive->TimeDrive(0.75, 0.0, 2.5);
+			Wait(1.0);
+			tele->drive->RotatetoAngle(45, 0.75);
+			tele->shoot->BombShotAim(0.75);
+		}
 	}
 
 	void AutonomousPeriodic()
 	{
-		//tele->drive->roboDrive->SetSafetyEnabled(false);
-		/*
-		if(autoSelected == autoNameCustom){
+		if(autoSelected == autoNameLowBar){
 			//Custom Auto goes here
 		} else {
 			//Default Auto goes here
 		}
-		*/
-		auton->AutonMode1();
-
-		Wait(0.03);
-		//Wait(15.0);
 	}
 
 	void TeleopInit()
