@@ -81,7 +81,7 @@ void Shooter::ResetRaisePositionManual(){
 void Shooter::Raise(float speed){
 	raiseShoot->StopMotor();
 	if(raiseShoot->GetControlMode() == CANSpeedController::kPercentVbus){
-		if(UpLimit->Get() == false || raiseShoot->GetEncPosition() >= minShooterPos){
+		if(UpLimit->Get() == true || raiseShoot->GetEncPosition() >= minShooterPos){
 			raiseShoot->Set(-speed);
 		}
 		else{
@@ -92,7 +92,7 @@ void Shooter::Raise(float speed){
 	else{
 		raiseShoot->SetControlMode(CANSpeedController::kPercentVbus);
 		raiseShoot->EnableControl();
-		if(UpLimit->Get() == false || raiseShoot->GetEncPosition() >= minShooterPos){
+		if(UpLimit->Get() == true || raiseShoot->GetEncPosition() >= minShooterPos){
 			raiseShoot->Set(-speed);
 		}
 		else{
@@ -111,7 +111,7 @@ void Shooter::RaiseNoSensors(float speed){
 void Shooter::Lower(float speed){
 	raiseShoot->StopMotor();
 	if(raiseShoot->GetControlMode() == CANSpeedController::kPercentVbus){
-		if(DownLimit->Get() == false || raiseShoot->GetPosition() <= maxShooterPos){
+		if(DownLimit->Get() == true || raiseShoot->GetPosition() <= maxShooterPos){
 			raiseShoot->Set(speed);
 		}
 		else{
@@ -121,7 +121,7 @@ void Shooter::Lower(float speed){
 	else{
 		raiseShoot->SetControlMode(CANSpeedController::kPercentVbus);
 		raiseShoot->EnableControl();
-		if(DownLimit->Get() == false || raiseShoot->GetPosition() <= maxShooterPos){
+		if(DownLimit->Get() == true || raiseShoot->GetPosition() <= maxShooterPos){
 			raiseShoot->Set(speed);
 		}
 		else{
@@ -195,8 +195,8 @@ void Shooter::TurretShotAim(){
 
 //Aim for the low goal
 void Shooter::LowGoalAim(float speed){
-	if(DownLimit->Get()){
-		while(DownLimit->Get()){
+	if(DownLimit->Get() == true){
+		while(DownLimit->Get() == true){
 			raiseShoot->Set(speed);
 		}
 		raiseShoot->Set(0.0);

@@ -145,7 +145,7 @@ void Teleop::TeleopWithSensors(){
 	//Aim Turret
 	if(controller2->xButtonGet() && xToggle){
 		xToggle = false;
-		shoot->TurretShotAim(0.7);
+		shoot->TurretShotAim();
 		currentPos = turretPos;
 	}
 	else if(controller2->xButtonGet() == false){
@@ -155,7 +155,7 @@ void Teleop::TeleopWithSensors(){
 	//Aim Bomb
 	if(controller2->yButtonGet() && yToggle){
 		yToggle = false;
-		shoot->BombShotAim(0.7);
+		shoot->BombShotAim();
 		currentPos = bombPos;
 	}
 	else if(controller2->yButtonGet() == false){
