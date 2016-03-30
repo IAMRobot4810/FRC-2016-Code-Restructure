@@ -49,6 +49,9 @@ private:
 
 		//auton = new Auto();
 		tele = new Teleop();
+		tele->shoot->raiseShoot->SetPosition(0.0);
+		tele->shoot->raiseShoot->SetPulseWidthPosition(0);
+		tele->shoot->raiseShoot->SetEncPosition(0);
 	}
 
 

@@ -17,15 +17,15 @@ const double trigHighDead = 0.25; //High end deadband for triggers
 const double trigInMin = 0.0; //Min input from trigger
 const double trigInMax = 1.0; //Max input from trigger
 const double trigOutMin = 0.0; //Min output for trigger
-const double trigOutMax = 0.25; //Max output for trigger
+const double trigOutMax = 0.35; //Max output for trigger
 
 const double turnAngleP = 0.05; //P constant for turning to an angle PID
 const double timeDriveWait = 0.03; //Wait time between loops for timed drive
 
-const int maxShooterEnco = 3836; //Maximum shooter encoder value
-const int minShooterEnco = 0; //Minimum shooter encoder value
-const int turretEnco = 400; //Turret shot encoder value
-const int bombEnco = 1000; //Bomb shot encoder value
+const double maxShooterPos = 0.919; //Maximum shooter encoder value
+const double minShooterPos = 0.0; //Minimum shooter encoder value
+const double turretPos = 0.173; //Turret shot encoder value
+const double bombPos = 0.041; //Bomb shot encoder value
 const int shooterAimTolerance = 50; //Shooter aiming encoder tolerance
 const double raiseShooterP = 0.001; //P constant for raising the shooter PID
 const double shooterRampTime = 0.5; //Ramp up time when shooting without RPM sensors

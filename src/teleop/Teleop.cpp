@@ -25,6 +25,7 @@ Teleop::Teleop(){
 	bool lStickToggle = true;
 	bool startToggle = true;
 	bool backToggle = true;
+	double currentPos = 0.0;
 }
 
 Teleop::~Teleop(){
@@ -145,6 +146,7 @@ void Teleop::TeleopWithSensors(){
 	if(controller2->xButtonGet() && xToggle){
 		xToggle = false;
 		shoot->TurretShotAim(0.7);
+		currentPos = turretPos;
 	}
 	else if(controller2->xButtonGet() == false){
 		xToggle = true;
@@ -154,6 +156,7 @@ void Teleop::TeleopWithSensors(){
 	if(controller2->yButtonGet() && yToggle){
 		yToggle = false;
 		shoot->BombShotAim(0.7);
+		currentPos = bombPos;
 	}
 	else if(controller2->yButtonGet() == false){
 		yToggle = true;
@@ -163,29 +166,41 @@ void Teleop::TeleopWithSensors(){
 	if(controller2->rBumperGet() && !controller2->lBumperGet() &&
 			controller2->getrTrig() < 0.25 && controller2->getlTrig() < 0.25){
 		shoot->Raise(0.5);
+		currentPos = shoot->raiseShoot->GetPosition();
 	}
 	//Lower manually 50% speed
 	else if(controller2->lBumperGet() && !controller2->rBumperGet() &&
 			controller2->getrTrig() < 0.25 && controller2->getlTrig() < 0.25){
 		shoot->Lower(0.5);
+		currentPos = shoot->raiseShoot->GetPosition();
 	}
 	//Raise manually variable up to 25%
 	else if(!controller2->lBumperGet() && !controller2->rBumperGet() &&
 			controller2->getrTrig() >= 0.25 && controller2->getlTrig() < 0.25){
 		shoot->Raise(conv2->trigOut(controller2, 3));
+		currentPos = shoot->raiseShoot->GetPosition();
 	}
 	//Lower manually variable up to 25%
 	else if(!controller2->lBumperGet() && !controller2->rBumperGet() &&
 			controller2->getrTrig() < 0.25 && controller2->getlTrig() >= 0.25){
 		shoot->Lower(conv2->trigOut(controller2, 2));
+		currentPos = shoot->raiseShoot->GetPosition();
 	}
+	//Hold Position
 	else{
-		shoot->raiseShoot->Set(0.0);
+		shoot->raiseShoot->StopMotor();
+		if(shoot->raiseShoot->GetControlMode() == CANSpeedController::kPosition){
+			shoot->raiseShoot->Set(currentPos);
+		}
+		else{
+			shoot->raiseShoot->SetControlMode(CANSpeedController::kPosition);
+			shoot->raiseShoot->SetPID(0.7, 0.0, 0.0);
+			shoot->raiseShoot->EnableControl();
+			shoot->raiseShoot->Set(currentPos);
+		}
 	}
 
-	currentEnco = shoot->raiseShoot->GetEncPosition();
-	SmartDashboard::PutNumber("Encoder", currentEnco);
-	SmartDashboard::PutNumber("PulseWidth", shoot->raiseShoot->GetPulseWidthPosition());
+	SmartDashboard::PutNumber("ShooterPos", currentPos);
 
 	//Shoot 95%
 	if(controller1->rBumperGet() && rToggle){
