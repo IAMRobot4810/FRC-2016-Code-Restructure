@@ -14,7 +14,6 @@ public:
 	void capture();
 	void get_infos();
 	void calibrate(unsigned int brightness, unsigned int exposure, unsigned int whitebalance);
-	void update_settings();
 };
 
 

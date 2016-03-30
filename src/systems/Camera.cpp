@@ -29,7 +29,6 @@ void Camera::calibrate(unsigned int brightness, unsigned int exposure, unsigned 
 	camera->SetBrightness(brightness);
 	camera->SetExposureManual(exposure);
 	camera->SetWhiteBalanceManual(whitebalance);
-
 }
 
 

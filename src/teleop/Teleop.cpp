@@ -120,7 +120,8 @@ void Teleop::TeleopNoSensors(){
 
 void Teleop::TeleopWithSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 5));
-
+	camera->capture();
+	camera->get_infos();
 	//Pick up the ball
 	if(controller2->getlStickY() >= 0){
 		shoot->Pickup(controller2->getlStickY());
