@@ -19,7 +19,6 @@ private:
 	std::string autoSelected;
 
 	Teleop *tele;
-	Camera* camera;
 	//Auto *auton;
 
 	~Robot(){
@@ -38,8 +37,7 @@ private:
 
 		//auton = new Auto();
 		tele = new Teleop();
-		camera = new Camera();
-		camera->initCamera();
+
 	}
 
 
@@ -98,14 +96,12 @@ private:
 
 	void TeleopInit()
 	{
-		camera->startAcquisition();
 	}
 
 	void TeleopPeriodic()
 	{
 		tele->TeleopWithSensors();
 		//tele->TeleopNoSensors();
-		camera->runCamera();
 	}
 
 	void TestPeriodic()

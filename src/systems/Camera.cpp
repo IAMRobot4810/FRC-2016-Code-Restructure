@@ -1,37 +1,36 @@
-#include "systems/Camera.h"
-
-Camera::Camera(): imaqError(IMAQdxErrorSuccess){
-	frame = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
-
-}
+#include "Camera.h"
 
 
-void Camera::initCamera(){
-	imaqError = IMAQdxOpenCamera(cam_name, IMAQdxCameraControlModeController, &session);
-	if(imaqError != IMAQdxErrorSuccess){
-		DriverStation::ReportError("IMAQdxOpenCamera error: " + std::to_string((long)imaqError) + "\n");
-	}
-	imaqError = IMAQdxConfigureGrab(session);
-	if(imaqError != IMAQdxErrorSuccess) {
-		DriverStation::ReportError("IMAQdxConfigureGrab error: " + std::to_string((long)imaqError) + "\n");
-	}
+Camera::Camera(){
+	camera = new USBCamera("cam1", false);
+	image = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
 
-}
-
-void Camera::startAcquisition(){
-	IMAQdxStartAcquisition(session);
-}
-
-void Camera::runCamera(){
-	IMAQdxGrab(session, frame, true, NULL);
-	if(imaqError != IMAQdxErrorSuccess) {
-		DriverStation::ReportError("IMAQdxGrab error: " + std::to_string((long)imaqError) + "\n");
-	} else {
-		CameraServer::GetInstance()->SetImage(frame);
-	}
-
+	camera->OpenCamera();
+	camera->StartCapture();
 }
 
 Camera::~Camera(){
-	IMAQdxStopAcquisition(session);
+	camera->StopCapture();
+	delete camera;
 }
+
+void Camera::capture(){
+	camera->GetImage(image);
+	CameraServer::GetInstance()->SetImage(image);
+}
+
+
+void Camera::get_infos(){
+	SmartDashboard::PutNumber("brightness", camera->GetBrightness());
+
+}
+
+void Camera::calibrate(unsigned int brightness, unsigned int exposure, unsigned int whitebalance){
+	camera->SetBrightness(brightness);
+	camera->SetExposureManual(exposure);
+	camera->SetWhiteBalanceManual(whitebalance);
+
+}
+
+
+

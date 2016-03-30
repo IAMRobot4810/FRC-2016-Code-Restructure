@@ -14,6 +14,7 @@
 #include "systems/DriveSystem.h"
 #include "systems/Shooter.h"
 #include "systems/DefenseArm.h"
+#include "systems/Camera.h"
 
 class Teleop{
 
@@ -29,6 +30,8 @@ public:
 	DriveSystem *drive;
 	Shooter *shoot;
 	DefenseArm *def;
+
+	Camera* camera;
 
 	bool aToggle;
 	bool bToggle;

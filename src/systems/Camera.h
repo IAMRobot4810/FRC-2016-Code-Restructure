@@ -1,24 +1,20 @@
-#ifndef SYSTEMS_CAMERA_H
-#define SYSTEMS_CAMERA_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include "WPILib.h"
-#include "NIVision.h"
-
-#include <string>
 
 class Camera{
 private:
-	Image* frame;
-	IMAQdxSession session;
-	IMAQdxError imaqError;
-	const char* cam_name = "cam1";
+	USBCamera* camera;
+	Image* image;
 public:
 	Camera();
 	~Camera();
 
-	void initCamera();
-	void startAcquisition();
-	void runCamera();
+	void capture();
+	void get_infos();
+	void calibrate(unsigned int brightness, unsigned int exposure, unsigned int whitebalance);
+	void update_settings();
 };
 
 
