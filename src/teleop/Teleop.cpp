@@ -200,7 +200,8 @@ void Teleop::TeleopWithSensors(){
 		}
 	}
 
-	SmartDashboard::PutNumber("ShooterPos", currentPos);
+	SmartDashboard::PutNumber("CurrentPos", currentPos);
+	SmartDashboard::PutNumber("ShooterPosLive", shoot->raiseShoot->GetPosition());
 
 	//Shoot 95%
 	if(controller1->rBumperGet() && rToggle){

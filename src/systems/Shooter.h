@@ -37,8 +37,7 @@ public:
 	bool DetectBall(); //Detect if the ball is in the cradle
 	void Pickup(float speed); //Pickup the ball and stop when a ball is detected
 	void PickupNoSensors(float speed); //Pickup the ball if there's a sensor failure
-	void ResetRaiseEncoder(); //Reset the raising and lowering encoder based on limit switch
-	void ResetRaiseEncoderManual(); //Reset the raising and lowering encoder manually
+	void ResetRaisePositionManual(); //Reset the raising and lowering encoder manually
 	void Raise(float speed); //Raise manually, will stop at top limit
 	void RaiseNoSensors(float speed); //Raise manually when there's a sensor failure
 	void Lower(float speed); //Lower manually, will stop at top limit

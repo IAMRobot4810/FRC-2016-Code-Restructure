@@ -73,15 +73,9 @@ void Shooter::PickupNoSensors(float speed){
 	rShooter->Set(speed/1.5);
 }
 
-void Shooter::ResetRaiseEncoder(){
-	if(UpLimit->Get()){
-		raiseShoot->SetEncPosition(0);
-	}
-}
-
 //Reset the raising and lowering encoder manually
-void Shooter::ResetRaiseEncoderManual(){
-	raiseShoot->SetEncPosition(0);
+void Shooter::ResetRaisePositionManual(){
+	raiseShoot->SetPosition(0);
 }
 
 //Raise manually, will stop at top limit
@@ -93,6 +87,7 @@ void Shooter::Raise(float speed){
 		}
 		else{
 			raiseShoot->Set(0.0);
+			ResetRaisePositionManual();
 		}
 	}
 	else{
@@ -103,6 +98,7 @@ void Shooter::Raise(float speed){
 		}
 		else{
 			raiseShoot->Set(0.0);
+			ResetRaisePositionManual();
 		}
 	}
 }
@@ -163,7 +159,7 @@ void Shooter::BombShotAim(float speed){
 	}
 	else{
 		raiseShoot->SetControlMode(CANSpeedController::kPosition);
-		raiseShoot->SetPID(0.7, 0.0, 0.0);
+		raiseShoot->SetPID(0.9, 0.0, 0.0);
 		raiseShoot->EnableControl();
 		raiseShoot->Set(bombPos);
 	}
@@ -192,7 +188,7 @@ void Shooter::TurretShotAim(float speed){
 	}
 	else{
 		raiseShoot->SetControlMode(CANSpeedController::kPosition);
-		raiseShoot->SetPID(0.7, 0.0, 0.0);
+		raiseShoot->SetPID(0.9, 0.0, 0.0);
 		raiseShoot->EnableControl();
 		raiseShoot->Set(turretPos);
 	}
