@@ -2,10 +2,10 @@
 #include "SmartDashboard/SmartDashboard.h"
 #include "LiveWindow/LiveWindow.h"
 #include "SmartDashboard/SendableChooser.h"
-#include "USBCamera.h"
-#include "CameraServer.h"
+#include "systems/Camera.h"
 #include "teleop/Teleop.h"
 #include "auto/Auto.h"
+
 
 class Robot: public IterativeRobot
 {
@@ -18,12 +18,10 @@ private:
 	const std::string autoNameSpy = "Spy Box Auto";
 	std::string autoSelected;
 
-	USBCamera *camera;
 	Teleop *tele;
 	//Auto *auton;
 
 	~Robot(){
-		delete camera;
 		delete tele;
 		//delete auton;
 	}
@@ -37,21 +35,13 @@ private:
 		chooser->AddObject(autoNameSpy, (void*)&autoNameSpy);
 		SmartDashboard::PutData("Auto Modes", chooser);
 
-		camera = new USBCamera("cam1", true);
-
-		camera->SetExposureManual(1);
-		camera->SetBrightness(1);
-		camera->SetSize(320, 240);
-		camera->SetFPS(20.0);
-
-		CameraServer::GetInstance()->SetQuality(10);
-		CameraServer::GetInstance()->StartAutomaticCapture("cam1");
-
 		//auton = new Auto();
 		tele = new Teleop();
+
 		tele->shoot->raiseShoot->SetPosition(0.0);
 		tele->shoot->raiseShoot->SetPulseWidthPosition(0);
 		tele->shoot->raiseShoot->SetEncPosition(0);
+
 	}
 
 
@@ -110,7 +100,6 @@ private:
 
 	void TeleopInit()
 	{
-
 	}
 
 	void TeleopPeriodic()

@@ -7,7 +7,10 @@
 
 #include "Teleop.h"
 
-Teleop::Teleop(){
+Teleop::Teleop(): aToggle(true), bToggle(true), xToggle(true), yToggle(true),
+rToggle(true), lToggle(true), rStickToggle(true), lStickToggle(true), startToggle(true),
+backToggle(true), currentPos(0.0d)
+{
 	controller1 = new StickControl(0);
 	controller2 = new StickControl(1);
 	conv1 = new InOutConverter();
@@ -15,6 +18,10 @@ Teleop::Teleop(){
 	drive = new DriveSystem();
 	shoot = new Shooter();
 	def = new DefenseArm();
+
+	camera = new Camera();
+	camera->calibrate(50, 0, 0);
+	/*
 	bool aToggle = true;
 	bool bToggle = true;
 	bool xToggle = true;
@@ -25,7 +32,7 @@ Teleop::Teleop(){
 	bool lStickToggle = true;
 	bool startToggle = true;
 	bool backToggle = true;
-	double currentPos = 0.0;
+*/
 }
 
 Teleop::~Teleop(){
@@ -36,10 +43,14 @@ Teleop::~Teleop(){
 	delete drive;
 	delete shoot;
 	delete def;
+
+	delete camera;
 }
 
 void Teleop::TeleopNoSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 5));
+	camera->capture();
+	camera->get_infos();
 
 	//Pick up the ball
 	if(controller2->getlStickY() >= 0){
@@ -109,7 +120,8 @@ void Teleop::TeleopNoSensors(){
 
 void Teleop::TeleopWithSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 5));
-
+	camera->capture();
+	camera->get_infos();
 	//Pick up the ball
 	if(controller2->getlStickY() >= 0){
 		shoot->Pickup(controller2->getlStickY());
