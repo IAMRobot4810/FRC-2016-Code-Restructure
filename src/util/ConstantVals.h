@@ -17,18 +17,22 @@ const double trigHighDead = 0.25; //High end deadband for triggers
 const double trigInMin = 0.0; //Min input from trigger
 const double trigInMax = 1.0; //Max input from trigger
 const double trigOutMin = 0.0; //Min output for trigger
-const double trigOutMax = 0.25; //Max output for trigger
+const double trigOutMax = 0.35; //Max output for trigger
 
 const double turnAngleP = 0.05; //P constant for turning to an angle PID
 const double timeDriveWait = 0.03; //Wait time between loops for timed drive
 
-const int maxShooterEnco = 3836; //Maximum shooter encoder value
-const int minShooterEnco = 0; //Minimum shooter encoder value
-const int turretEnco = 400; //Turret shot encoder value
-const int bombEnco = 1000; //Bomb shot encoder value
+const double rotorPickupDivisor = 1.5; //Voltage percentage division factor for rotors in pickup
+const double maxShooterPos = 0.919; //Maximum shooter encoder value
+const double minShooterPos = 0.0; //Minimum shooter encoder value
+const double turretPos = 0.173; //Turret shot encoder value
+const double bombPos = 0.022; //Bomb shot encoder value
+const double shootPosP = 0.9; //P Value for shooter aiming
+const double shootPosI = 0.0; //I Value for shooter aiming
+const double shootPosD = 0.0; //D Value for shooter aiming
 const int shooterAimTolerance = 50; //Shooter aiming encoder tolerance
 const double raiseShooterP = 0.001; //P constant for raising the shooter PID
 const double shooterRampTime = 0.5; //Ramp up time when shooting without RPM sensors
-const double shooterWaitTime = 0.25; //Wait time after shooting ball before retracting cylinder without RPM sensors
+const double shooterWaitTime = 0.25; //Wait time after shooting ball before retracting cylinder
 
 #endif /* SRC_UTIL_CONSTANTVALS_H_ */

@@ -38,6 +38,10 @@ private:
 		//auton = new Auto();
 		tele = new Teleop();
 
+		tele->shoot->raiseShoot->SetPosition(0.0);
+		tele->shoot->raiseShoot->SetPulseWidthPosition(0);
+		tele->shoot->raiseShoot->SetEncPosition(0);
+
 	}
 
 
@@ -67,7 +71,7 @@ private:
 		}
 		else if(autoSelected == autoNameSpy){
 			tele->def->Lower();
-			tele->shoot->BombShotAim(0.75);
+			tele->shoot->BombShotAim();
 		}
 		else{
 			//Default Auto goes here
@@ -81,7 +85,7 @@ private:
 			tele->drive->TimeDrive(0.75, 0.0, 2.5);
 			Wait(1.0);
 			tele->drive->RotatetoAngle(45, 0.75);
-			tele->shoot->BombShotAim(0.75);
+			tele->shoot->BombShotAim();
 		}
 	}
 

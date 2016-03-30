@@ -54,8 +54,8 @@ bool Shooter::DetectBall(){
 void Shooter::Pickup(float speed){
 	if(DetectBall() == false){
 		picker->Set(speed);
-		lShooter->Set(-(speed/1.5));
-		rShooter->Set(speed/1.5);
+		lShooter->Set(-(speed/rotorPickupDivisor));
+		rShooter->Set(speed/rotorPickupDivisor);
 	}
 	else{
 		picker->Set(0.0);
@@ -68,28 +68,37 @@ void Shooter::Pickup(float speed){
 //Pickup the ball if there's a sensor failure
 void Shooter::PickupNoSensors(float speed){
 	picker->Set(speed);
-	lShooter->Set(-(speed/1.5));
-	rShooter->Set(speed/1.5);
-}
-
-void Shooter::ResetRaiseEncoder(){
-	if(UpLimit->Get()){
-		raiseShoot->SetEncPosition(0);
-	}
+	lShooter->Set(-(speed/rotorPickupDivisor));
+	rShooter->Set(speed/rotorPickupDivisor);
 }
 
 //Reset the raising and lowering encoder manually
-void Shooter::ResetRaiseEncoderManual(){
-	raiseShoot->SetEncPosition(0);
+void Shooter::ResetRaisePositionManual(){
+	raiseShoot->SetPosition(0);
 }
 
 //Raise manually, will stop at top limit
 void Shooter::Raise(float speed){
-	if(UpLimit->Get() == true){
-		raiseShoot->Set(-speed);
+	raiseShoot->StopMotor();
+	if(raiseShoot->GetControlMode() == CANSpeedController::kPercentVbus){
+		if(UpLimit->Get() == true || raiseShoot->GetEncPosition() >= minShooterPos){
+			raiseShoot->Set(-speed);
+		}
+		else{
+			raiseShoot->Set(0.0);
+			ResetRaisePositionManual();
+		}
 	}
 	else{
-		raiseShoot->Set(0.0);
+		raiseShoot->SetControlMode(CANSpeedController::kPercentVbus);
+		raiseShoot->EnableControl();
+		if(UpLimit->Get() == true || raiseShoot->GetEncPosition() >= minShooterPos){
+			raiseShoot->Set(-speed);
+		}
+		else{
+			raiseShoot->Set(0.0);
+			ResetRaisePositionManual();
+		}
 	}
 }
 
@@ -100,11 +109,24 @@ void Shooter::RaiseNoSensors(float speed){
 
 //Lower manually, will stop at top limit
 void Shooter::Lower(float speed){
-	if(DownLimit->Get() == true || raiseShoot->GetEncPosition() > maxShooterEnco){
-		raiseShoot->Set(speed);
+	raiseShoot->StopMotor();
+	if(raiseShoot->GetControlMode() == CANSpeedController::kPercentVbus){
+		if(DownLimit->Get() == true || raiseShoot->GetPosition() <= maxShooterPos){
+			raiseShoot->Set(speed);
+		}
+		else{
+			raiseShoot->Set(0.0);
+		}
 	}
 	else{
-		raiseShoot->Set(0.0);
+		raiseShoot->SetControlMode(CANSpeedController::kPercentVbus);
+		raiseShoot->EnableControl();
+		if(DownLimit->Get() == true || raiseShoot->GetPosition() <= maxShooterPos){
+			raiseShoot->Set(speed);
+		}
+		else{
+			raiseShoot->Set(0.0);
+		}
 	}
 }
 
@@ -114,47 +136,67 @@ void Shooter::LowerNoSensors(float speed){
 }
 
 //Aim for the high goal from far
-void Shooter::BombShotAim(float speed){
-	if(raiseShoot->GetEncPosition() > (bombEnco + shooterAimTolerance)){
+void Shooter::BombShotAim(){
+	/*if(raiseShoot->GetEncPosition() > (bombEnco + shooterAimTolerance)){
 		while(raiseShoot->GetEncPosition() > (bombEnco + shooterAimTolerance)){
 			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), bombEnco, raiseShooterP, speed, -speed));
 		}
-		raiseShoot->Set(0.0);
+		raiseShoot->StopMotor();
 	}
 	else if (raiseShoot->GetEncPosition() < bombEnco){
 		while(raiseShoot->GetEncPosition() < bombEnco){
 			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), bombEnco, raiseShooterP, speed, -speed));
 		}
-		raiseShoot->Set(0.0);
+		raiseShoot->StopMotor();
 	}
 	else{
-		raiseShoot->Set(0.0);
+		raiseShoot->StopMotor();
+	}*/
+	raiseShoot->StopMotor();
+	if(raiseShoot->GetControlMode() == CANSpeedController::kPosition){
+		raiseShoot->Set(bombPos);
+	}
+	else{
+		raiseShoot->SetControlMode(CANSpeedController::kPosition);
+		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD);
+		raiseShoot->EnableControl();
+		raiseShoot->Set(bombPos);
 	}
 }
 
 //Aim for the high goal from close
-void Shooter::TurretShotAim(float speed){
-	if(raiseShoot->GetEncPosition() > (turretEnco + shooterAimTolerance)){
+void Shooter::TurretShotAim(){
+	/*if(raiseShoot->GetEncPosition() > (turretEnco + shooterAimTolerance)){
 		while(raiseShoot->GetEncPosition() > (turretEnco + shooterAimTolerance)){
 			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), turretEnco, raiseShooterP, speed, -speed));
 		}
-		raiseShoot->Set(0.0);
+		raiseShoot->StopMotor();
 	}
 	else if (raiseShoot->GetEncPosition() < turretEnco){
 		while(raiseShoot->GetEncPosition() < turretEnco){
 			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), turretEnco, raiseShooterP, speed, -speed));
 		}
-		raiseShoot->Set(0.0);
+		raiseShoot->StopMotor();
 	}
 	else{
-		raiseShoot->Set(0.0);
+		raiseShoot->StopMotor();
+	}*/
+	raiseShoot->StopMotor();
+	if(raiseShoot->GetControlMode() == CANSpeedController::kPosition){
+		raiseShoot->Set(turretPos);
+	}
+	else{
+		raiseShoot->SetControlMode(CANSpeedController::kPosition);
+		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD);
+		raiseShoot->EnableControl();
+		raiseShoot->Set(turretPos);
 	}
 }
 
 //Aim for the low goal
 void Shooter::LowGoalAim(float speed){
-	if(DownLimit->Get()){
-		while(DownLimit->Get()){
+	if(DownLimit->Get() == true){
+		while(DownLimit->Get() == true){
 			raiseShoot->Set(speed);
 		}
 		raiseShoot->Set(0.0);
@@ -164,8 +206,8 @@ void Shooter::LowGoalAim(float speed){
 	}
 }
 
-void Shooter::CustomAim(float speed, int encoVal){
-	if(encoVal < maxShooterEnco && encoVal > minShooterEnco){
+void Shooter::CustomAim(double pos){
+	/*if(encoVal < maxShooterEnco && encoVal > minShooterEnco){
 		if(raiseShoot->GetEncPosition() > (encoVal+shooterAimTolerance)){
 			while(raiseShoot->GetEncPosition() > (encoVal+shooterAimTolerance)){
 				raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), (encoVal+shooterAimTolerance), raiseShooterP, speed, -speed));
@@ -184,6 +226,16 @@ void Shooter::CustomAim(float speed, int encoVal){
 	}
 	else{
 		raiseShoot->Set(0.0);
+	}*/
+	raiseShoot->StopMotor();
+	if(raiseShoot->GetControlMode() == CANSpeedController::kPosition){
+		raiseShoot->Set(pos);
+	}
+	else{
+		raiseShoot->SetControlMode(CANSpeedController::kPosition);
+		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD);
+		raiseShoot->EnableControl();
+		raiseShoot->Set(pos);
 	}
 }
 
