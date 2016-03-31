@@ -9,6 +9,7 @@
 #define SRC_SYSTEMS_GYROSENSOR_H_
 
 #include "AnalogGyro.h"
+#include "util/DeviceIDs.h"
 
 class GyroSensor{
 

@@ -2,7 +2,7 @@
 
 
 Camera::Camera(){
-	camera = new USBCamera("cam1", false);
+	camera = new USBCamera(camID, false);
 	image = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
 
 	camera->OpenCamera();

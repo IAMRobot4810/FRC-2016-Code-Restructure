@@ -9,16 +9,16 @@
 
 StickControl::StickControl(int id){
 	stick = new Joystick(id);
-	aButton = new JoystickButton(stick, 1);
-	bButton = new JoystickButton(stick, 2);
-	xButton = new JoystickButton(stick, 3);
-	yButton = new JoystickButton(stick, 4);
-	rBumper = new JoystickButton(stick, 6);
-	lBumper = new JoystickButton(stick, 5);
-	rStickButton = new JoystickButton(stick, 10);
-	lStickButton = new JoystickButton(stick, 9);
-	startButton = new JoystickButton(stick, 8);
-	backButton = new JoystickButton(stick, 7);
+	aButton = new JoystickButton(stick, aButtonID);
+	bButton = new JoystickButton(stick, bButtonID);
+	xButton = new JoystickButton(stick, xButtonID);
+	yButton = new JoystickButton(stick, yButtonID);
+	rBumper = new JoystickButton(stick, rBumperID);
+	lBumper = new JoystickButton(stick, lBumperID);
+	rStickButton = new JoystickButton(stick, rStickButtonID);
+	lStickButton = new JoystickButton(stick, lStickButtonID);
+	startButton = new JoystickButton(stick, startButtonID);
+	backButton = new JoystickButton(stick, backButtonID);
 }
 
 StickControl::~StickControl(){
@@ -80,25 +80,25 @@ int StickControl::getPOV(){
 }
 
 double StickControl::getrStickX(){
-	return stick->GetRawAxis(4);
+	return stick->GetRawAxis(rStickXAxis);
 }
 
 double StickControl::getrStickY(){
-	return stick->GetRawAxis(5);
+	return stick->GetRawAxis(rStickYAxis);
 }
 
 double StickControl::getlStickX(){
-	return stick->GetRawAxis(0);
+	return stick->GetRawAxis(lStickXAxis);
 }
 
 double StickControl::getlStickY(){
-	return stick->GetRawAxis(1);
+	return stick->GetRawAxis(lStickYAxis);
 }
 
 double StickControl::getrTrig(){
-	return stick->GetRawAxis(3);
+	return stick->GetRawAxis(rTrigAxis);
 }
 
 double StickControl::getlTrig(){
-	return stick->GetRawAxis(2);
+	return stick->GetRawAxis(lTrigAxis);
 }

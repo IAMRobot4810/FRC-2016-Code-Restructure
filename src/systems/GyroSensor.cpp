@@ -8,7 +8,7 @@
 #include "GyroSensor.h"
 
 GyroSensor::GyroSensor(){
-	gyro = new AnalogGyro(0);
+	gyro = new AnalogGyro(gyroID);
 	gyro->InitGyro();
 }
 

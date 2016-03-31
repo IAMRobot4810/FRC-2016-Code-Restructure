@@ -8,7 +8,7 @@
 #include "DefenseArm.h"
 
 DefenseArm::DefenseArm(){
-	noid = new Solenoid(1, 1);
+	noid = new Solenoid(pcmID, noidID);
 	Low = false;
 }
 

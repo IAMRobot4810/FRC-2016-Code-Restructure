@@ -1,7 +1,12 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "WPILib.h"
+#include "USBCamera.h"
+#include "nivision.h"
+#include "CameraServer.h"
+#include "NIIMAQdx.h"
+#include "SmartDashboard/SmartDashboard.h"
+#include "util/DeviceIDs.h"
 
 class Camera{
 private:

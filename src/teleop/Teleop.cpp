@@ -11,8 +11,8 @@ Teleop::Teleop(): aToggle(true), bToggle(true), xToggle(true), yToggle(true),
 rToggle(true), lToggle(true), rStickToggle(true), lStickToggle(true), startToggle(true),
 backToggle(true), currentPos(0.0d)
 {
-	controller1 = new StickControl(0);
-	controller2 = new StickControl(1);
+	controller1 = new StickControl(cont1ID);
+	controller2 = new StickControl(cont2ID);
 	conv1 = new InOutConverter();
 	conv2 = new InOutConverter();
 	drive = new DriveSystem();
@@ -22,18 +22,6 @@ backToggle(true), currentPos(0.0d)
 	camera = new Camera();
 	//camera->calibrate(50, 0, 0);
 	camera->calibrateAuto(50);
-	/*
-	bool aToggle = true;
-	bool bToggle = true;
-	bool xToggle = true;
-	bool yToggle = true;
-	bool rToggle = true;
-	bool lToggle = true;
-	bool rStickToggle = true;
-	bool lStickToggle = true;
-	bool startToggle = true;
-	bool backToggle = true;
-*/
 }
 
 Teleop::~Teleop(){
@@ -44,7 +32,6 @@ Teleop::~Teleop(){
 	delete drive;
 	delete shoot;
 	delete def;
-
 	delete camera;
 }
 

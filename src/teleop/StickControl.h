@@ -10,6 +10,7 @@
 
 #include "Joystick.h"
 #include "Buttons/JoystickButton.h"
+#include "util/DeviceIDs.h"
 
 class StickControl{
 

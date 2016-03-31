@@ -15,6 +15,7 @@
 #include "systems/Shooter.h"
 #include "systems/DefenseArm.h"
 #include "systems/Camera.h"
+#include "util/DeviceIDs.h"
 
 class Teleop{
 

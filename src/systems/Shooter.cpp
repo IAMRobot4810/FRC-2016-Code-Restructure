@@ -8,17 +8,17 @@
 #include "Shooter.h"
 
 Shooter::Shooter(){
-	raiseShoot = new CANTalon(4); //7
+	raiseShoot = new CANTalon(raiseShootID);
 	raiseShoot->SetFeedbackDevice(CANTalon::CtreMagEncoder_Absolute);
-	UpLimit = new DigitalInput(4);
-	DownLimit = new DigitalInput(5);
-	ballSense = new DigitalInput(0); //3
-	shootSol = new Solenoid(1, 0);
-	lShooter = new CANTalon(1); //5
-	rShooter = new CANTalon (2); //6
-	lRPMSensor = new DigitalInput(1);
-	rRPMSensor = new DigitalInput(2);
-	picker = new CANTalon(3); //8
+	UpLimit = new DigitalInput(upLimitID);
+	DownLimit = new DigitalInput(downLimitID);
+	ballSense = new DigitalInput(ballSenseID);
+	shootSol = new Solenoid(pcmID, shootSolID);
+	lShooter = new CANTalon(lShooterID);
+	rShooter = new CANTalon (rShooterID);
+	lRPMSensor = new DigitalInput(lRPMSensorID);
+	rRPMSensor = new DigitalInput(rRPMSensorID);
+	picker = new CANTalon(pickerID);
 	rpmTimerL = new Timer();
 	rpmTimerR = new Timer();
 }
@@ -137,21 +137,6 @@ void Shooter::LowerNoSensors(float speed){
 
 //Aim for the high goal from far
 void Shooter::BombShotAim(){
-	/*if(raiseShoot->GetEncPosition() > (bombEnco + shooterAimTolerance)){
-		while(raiseShoot->GetEncPosition() > (bombEnco + shooterAimTolerance)){
-			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), bombEnco, raiseShooterP, speed, -speed));
-		}
-		raiseShoot->StopMotor();
-	}
-	else if (raiseShoot->GetEncPosition() < bombEnco){
-		while(raiseShoot->GetEncPosition() < bombEnco){
-			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), bombEnco, raiseShooterP, speed, -speed));
-		}
-		raiseShoot->StopMotor();
-	}
-	else{
-		raiseShoot->StopMotor();
-	}*/
 	raiseShoot->StopMotor();
 	if(raiseShoot->GetControlMode() == CANSpeedController::kPosition){
 		raiseShoot->Set(bombPos);
@@ -166,21 +151,6 @@ void Shooter::BombShotAim(){
 
 //Aim for the high goal from close
 void Shooter::TurretShotAim(){
-	/*if(raiseShoot->GetEncPosition() > (turretEnco + shooterAimTolerance)){
-		while(raiseShoot->GetEncPosition() > (turretEnco + shooterAimTolerance)){
-			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), turretEnco, raiseShooterP, speed, -speed));
-		}
-		raiseShoot->StopMotor();
-	}
-	else if (raiseShoot->GetEncPosition() < turretEnco){
-		while(raiseShoot->GetEncPosition() < turretEnco){
-			raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), turretEnco, raiseShooterP, speed, -speed));
-		}
-		raiseShoot->StopMotor();
-	}
-	else{
-		raiseShoot->StopMotor();
-	}*/
 	raiseShoot->StopMotor();
 	if(raiseShoot->GetControlMode() == CANSpeedController::kPosition){
 		raiseShoot->Set(turretPos);
@@ -207,26 +177,6 @@ void Shooter::LowGoalAim(float speed){
 }
 
 void Shooter::CustomAim(double pos){
-	/*if(encoVal < maxShooterEnco && encoVal > minShooterEnco){
-		if(raiseShoot->GetEncPosition() > (encoVal+shooterAimTolerance)){
-			while(raiseShoot->GetEncPosition() > (encoVal+shooterAimTolerance)){
-				raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), (encoVal+shooterAimTolerance), raiseShooterP, speed, -speed));
-			}
-			raiseShoot->Set(0.0);
-		}
-		else if (raiseShoot->GetEncPosition() < encoVal){
-			while(raiseShoot->GetEncPosition() < encoVal){
-				raiseShoot->Set(PMotorPower(raiseShoot->GetEncPosition(), encoVal, raiseShooterP, speed, -speed));
-			}
-			raiseShoot->Set(0.0);
-		}
-		else{
-			raiseShoot->Set(0.0);
-		}
-	}
-	else{
-		raiseShoot->Set(0.0);
-	}*/
 	raiseShoot->StopMotor();
 	if(raiseShoot->GetControlMode() == CANSpeedController::kPosition){
 		raiseShoot->Set(pos);
