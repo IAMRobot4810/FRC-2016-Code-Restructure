@@ -9,6 +9,7 @@
 #define SRC_SYSTEMS_DEFENSEARM_H_
 
 #include "Solenoid.h"
+#include "util/DeviceIDs.h"
 
 class DefenseArm{
 public:

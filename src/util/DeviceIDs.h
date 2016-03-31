@@ -32,7 +32,7 @@ static const int rStickXAxis = 4;
 static const int rStickYAxis = 5;
 
 //Camera IDs
-static const std::string camID = "cam1";
+static const std::string camID = "cam0";
 
 //GyroSensor IDs
 static const int gyroID = 0;
