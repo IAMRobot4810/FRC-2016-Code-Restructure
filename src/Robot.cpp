@@ -12,8 +12,10 @@ class Robot: public IterativeRobot
 private:
 	LiveWindow *lw = LiveWindow::GetInstance();
 	SendableChooser *chooser;
+	const std::string autoNameNone = "No Auto";
 	const std::string autoNameLowBar = "Low Bar Auto";
 	const std::string autoNameTerrain = "Terrain Auto";
+	const std::string autoNameMoat = "Moat Auto";
 	const std::string autoNameDefense = "Defense Auto";
 	const std::string autoNameSpy = "Spy Box Auto";
 	std::string autoSelected;
@@ -29,8 +31,10 @@ private:
 	void RobotInit()
 	{
 		chooser = new SendableChooser();
-		chooser->AddDefault(autoNameLowBar, (void*)&autoNameLowBar);
+		chooser->AddDefault(autoNameNone, (void*)&autoNameNone);
+		chooser->AddObject(autoNameLowBar, (void*)&autoNameLowBar);
 		chooser->AddObject(autoNameTerrain, (void*)&autoNameTerrain);
+		chooser->AddObject(autoNameMoat, (void*)&autoNameMoat);
 		chooser->AddObject(autoNameDefense, (void*)&autoNameDefense);
 		chooser->AddObject(autoNameSpy, (void*)&autoNameSpy);
 		SmartDashboard::PutData("Auto Modes", chooser);
@@ -62,8 +66,16 @@ private:
 
 		if(autoSelected == autoNameTerrain){
 			//Custom Auto goes here
+			tele->def->Raise();
 			tele->shoot->Raise(0.5);
 			tele->drive->TimeDrive(0.75, 0.0, 4.0);
+			Wait(5.0);
+		}
+		if(autoSelected == autoNameTerrain){
+			//Custom Auto goes here
+			tele->def->Raise();
+			tele->shoot->Raise(0.5);
+			tele->drive->TimeDrive(0.95, 0.0, 3.0);
 			Wait(5.0);
 		}
 		else if(autoSelected == autoNameDefense){
@@ -72,8 +84,9 @@ private:
 		else if(autoSelected == autoNameSpy){
 			tele->def->Lower();
 			tele->shoot->BombShotAim();
+			tele->shoot->ShootNoSensors(1.0, 1.0, 0.0);
 		}
-		else{
+		else if(autoSelected == autoNameLowBar){
 			//Default Auto goes here
 			tele->def->Lower();
 			Wait(0.5);
@@ -86,6 +99,9 @@ private:
 			Wait(1.0);
 			tele->drive->RotatetoAngle(45, 0.75);
 			tele->shoot->BombShotAim();
+		}
+		else{
+			Wait(10.0);
 		}
 	}
 

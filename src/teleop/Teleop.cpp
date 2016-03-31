@@ -20,7 +20,8 @@ backToggle(true), currentPos(0.0d)
 	def = new DefenseArm();
 
 	camera = new Camera();
-	camera->calibrate(50, 0, 0);
+	//camera->calibrate(50, 0, 0);
+	camera->calibrateAuto(50);
 	/*
 	bool aToggle = true;
 	bool bToggle = true;
