@@ -90,6 +90,7 @@ void Teleop::TeleopNoSensors(){
 	//Shoot 95%
 	if(controller1->rBumperGet() && rToggle){
 		rToggle = false;
+		def->Lower();
 		shoot->ShootNoSensors(0.95, 0.95, 0.95);
 	}
 	else if(controller1->rBumperGet() == false){
@@ -99,6 +100,7 @@ void Teleop::TeleopNoSensors(){
 	//Shoot 75%
 	if(controller1->lBumperGet() && lToggle){
 		rToggle = false;
+		def->Lower();
 		shoot->ShootNoSensors(0.75, 0.75, 0.75);
 	}
 	else if(controller1->lBumperGet() == false){
@@ -202,10 +204,13 @@ void Teleop::TeleopWithSensors(){
 
 	SmartDashboard::PutNumber("CurrentPos", currentPos);
 	SmartDashboard::PutNumber("ShooterPosLive", shoot->raiseShoot->GetPosition());
+	SmartDashboard::PutBoolean("UpLimit", shoot->UpLimit->Get());
+	SmartDashboard::PutBoolean("DownLimit", shoot->DownLimit->Get());
 
 	//Shoot 95%
 	if(controller1->rBumperGet() && rToggle){
 		rToggle = false;
+		def->Lower();
 		shoot->ShootNoSensors(0.95, 0.95, 0.95);
 	}
 	else if(controller1->rBumperGet() == false){
@@ -215,6 +220,7 @@ void Teleop::TeleopWithSensors(){
 	//Shoot 75%
 	if(controller1->lBumperGet() && lToggle){
 		lToggle = false;
+		def->Lower();
 		shoot->ShootNoSensors(0.75, 0.75, 0.75);
 	}
 	else if(controller1->lBumperGet() == false){

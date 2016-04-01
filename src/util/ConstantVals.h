@@ -30,12 +30,12 @@ static const double maxShooterPos = 0.919; //Maximum shooter encoder value
 static const double minShooterPos = 0.0; //Minimum shooter encoder value
 static const double turretPos = 0.173; //Turret shot encoder value
 static const double bombPos = 0.022; //Bomb shot encoder value
-static const double shootPosP = 0.9; //P Value for shooter aiming
+static const double shootPosP = 0.5; //P Value for shooter aiming
 static const double shootPosI = 0.0; //I Value for shooter aiming
 static const double shootPosD = 0.0; //D Value for shooter aiming
 static const int shooterAimTolerance = 50; //Shooter aiming encoder tolerance
 static const double raiseShooterP = 0.001; //P constant for raising the shooter PID
-static const double shooterRampTime = 0.5; //Ramp up time when shooting without RPM sensors
+static const double shooterRampTime = 1.0; //Ramp up time when shooting without RPM sensors
 static const double shooterWaitTime = 0.25; //Wait time after shooting ball before retracting cylinder
 
 #endif /* SRC_UTIL_CONSTANTVALS_H_ */
