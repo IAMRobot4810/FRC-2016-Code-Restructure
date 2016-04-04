@@ -11,7 +11,6 @@
 #include "CANTalon.h"
 #include "Solenoid.h"
 #include "DigitalInput.h"
-#include "Timer.h"
 #include "util/ConstantVals.h"
 #include "util/DeviceIDs.h"
 
@@ -29,10 +28,6 @@ public:
 	DigitalInput *DownLimit;
 	Solenoid *shootSol;
 	DigitalInput *ballSense;
-	DigitalInput *lRPMSensor;
-	DigitalInput *rRPMSensor;
-	Timer *rpmTimerL;
-	Timer *rpmTimerR;
 
 	bool DetectBall(); //Detect if the ball is in the cradle
 	void Pickup(float speed); //Pickup the ball and stop when a ball is detected
@@ -46,8 +41,7 @@ public:
 	void TurretShotAim(); //Aim for the high goal from close
 	void LowGoalAim(float speed); //Aim for the low goal
 	void CustomAim(double pos); //Aim to a specific encoder value
-	float ReadRPM(DigitalInput *banner, Timer *time); //Read rotor RPM
-	void Shoot(int leftRPM, int rightRPM, float rollPow); //Shoot with RPM readings
+	void RPMShoot(int leftRPM, int rightRPM, float rollPow); //Shoot with RPM readings
 	void ShootNoSensors(float leftPow, float rightPow, float rollPow); //Shoot when there's a sensor failure
 
 private:

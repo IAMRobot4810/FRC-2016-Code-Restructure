@@ -16,11 +16,7 @@ Shooter::Shooter(){
 	shootSol = new Solenoid(pcmID, shootSolID);
 	lShooter = new CANTalon(lShooterID);
 	rShooter = new CANTalon (rShooterID);
-	lRPMSensor = new DigitalInput(lRPMSensorID);
-	rRPMSensor = new DigitalInput(rRPMSensorID);
 	picker = new CANTalon(pickerID);
-	rpmTimerL = new Timer();
-	rpmTimerR = new Timer();
 }
 
 Shooter::~Shooter(){
@@ -31,11 +27,7 @@ Shooter::~Shooter(){
 	delete shootSol;
 	delete lShooter;
 	delete rShooter;
-	delete lRPMSensor;
-	delete rRPMSensor;
 	delete picker;
-	delete rpmTimerL;
-	delete rpmTimerR;
 }
 
 //Detect if the ball is in the cradle
@@ -176,6 +168,7 @@ void Shooter::LowGoalAim(float speed){
 	}
 }
 
+//Aim for a custom position
 void Shooter::CustomAim(double pos){
 	raiseShoot->StopMotor();
 	if(raiseShoot->GetControlMode() == CANSpeedController::kPosition){
@@ -189,48 +182,8 @@ void Shooter::CustomAim(double pos){
 	}
 }
 
-float Shooter::ReadRPM(DigitalInput *banner, Timer *time){
-	float rpmReading;
-	bool bannerToggle = true;
-	int reads = 0;
-	time->Reset();
-	time->Start();
-	while(time->Get() <= 0.05){
-		if(banner->Get() == false && bannerToggle){
-			bannerToggle = false;
-			reads++;
-		}
-		else if(banner->Get()){
-			bannerToggle = true;
-		} //Test this
-	}
-	time->Stop();
-	rpmReading = reads * 400; //1200
-	return rpmReading;
-}
+void Shooter::RPMShoot(int leftRPM, int rightRPM, float rollPow){
 
-void Shooter::Shoot(int leftRPM, int rightRPM, float rollPow){
-	lShooter->Set(0.1);
-	rShooter->Set(-0.1);
-	picker->Set(rollPow);
-	if(leftRPM > 2400){
-		leftRPM = 2400;
-	}
-	if(rightRPM > 2400){
-		rightRPM = 2400;
-	}
-	for(int lPow = 0.1; ReadRPM(lRPMSensor, rpmTimerL) < (leftRPM - 200) || lPow <= 1.0; lPow += 0.1){
-		lShooter->Set(lPow);
-	}
-	for(int rPow = 0.1; ReadRPM(rRPMSensor, rpmTimerR) < (rightRPM - 200) || rPow <= 1.0; rPow -= 0.1){
-		rShooter->Set(-rPow);
-	}
-	shootSol->Set(true);
-	Wait(1.0);
-	shootSol->Set(false);
-	lShooter->Set(0.0);
-	rShooter->Set(0.0);
-	picker->Set(0.0);
 }
 
 //Shoot when there's a sensor failure

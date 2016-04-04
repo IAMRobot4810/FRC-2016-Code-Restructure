@@ -24,6 +24,12 @@ static const double trigOutMax = 0.35; //Max output for trigger
 static const double turnAngleP = 0.05; //P constant for turning to an angle PID
 static const double timeDriveWait = 0.03; //Wait time between loops for timed drive
 
+//ShootRotorEncoder constants
+static const int tapeLines = 8; //Number of pieces of tape on the rotor
+static const int secsPerMin = 60; //Seconds per minute
+static const float updateTime = 0.01; //Update time in seconds for sensor readings
+static float scaleMultiple = secsPerMin/(updateTime*tapeLines); //Multiplier to convert reads per update to RPM
+
 //Shooter constants
 static const double rotorPickupDivisor = 1.5; //Voltage percentage division factor for rotors in pickup
 static const double maxShooterPos = 0.919; //Maximum shooter encoder value
