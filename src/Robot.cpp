@@ -2,9 +2,11 @@
 #include "SmartDashboard/SmartDashboard.h"
 #include "LiveWindow/LiveWindow.h"
 #include "SmartDashboard/SendableChooser.h"
-#include "systems/Camera.h"
+#include "CameraServer.h"
+#include "nivision.h"
 #include "teleop/Teleop.h"
 #include "auto/Auto.h"
+#include "util/DeviceIDs.h"
 
 
 class Robot: public IterativeRobot
@@ -20,6 +22,7 @@ private:
 	const std::string autoNameSpy = "Spy Box Auto";
 	std::string autoSelected;
 
+	Image *camImage;
 	Teleop *tele;
 	//Auto *auton;
 
@@ -42,6 +45,9 @@ private:
 		//auton = new Auto();
 		tele = new Teleop();
 
+		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
+		camImage = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
+		imaqFlip(camImage, camImage, FlipAxis::IMAQ_HORIZONTAL_AXIS);
 		tele->shoot->raiseShoot->SetPosition(0.0);
 		tele->shoot->raiseShoot->SetPulseWidthPosition(0);
 		tele->shoot->raiseShoot->SetEncPosition(0);
@@ -68,10 +74,10 @@ private:
 			//Custom Auto goes here
 			tele->def->Raise();
 			tele->shoot->Raise(0.5);
-			tele->drive->TimeDrive(0.75, 0.0, 4.0);
+			tele->drive->TimeDrive(0.75, 0.0, 3.5);
 			Wait(5.0);
 		}
-		if(autoSelected == autoNameTerrain){
+		else if(autoSelected == autoNameMoat){
 			//Custom Auto goes here
 			tele->def->Raise();
 			tele->shoot->Raise(0.5);
@@ -97,7 +103,7 @@ private:
 			tele->shoot->raiseShoot->Set(0.0);
 			tele->drive->TimeDrive(0.75, 0.0, 2.5);
 			Wait(1.0);
-			tele->drive->RotatetoAngle(45, 0.75);
+			//tele->drive->RotatetoAngle(45, 0.75);
 			tele->shoot->BombShotAim();
 		}
 		else{
