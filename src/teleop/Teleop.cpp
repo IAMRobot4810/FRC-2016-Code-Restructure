@@ -19,9 +19,9 @@ backToggle(true), currentPos(0.0d)
 	shoot = new Shooter();
 	def = new DefenseArm();
 
-	//camera = new Camera();
-	//camera->calibrate(50, 0, 0);
-	//camera->calibrateAuto(50);
+	camera = new Camera();
+	camera->calibrate(50, 0, 0);
+	camera->calibrateAuto(50);
 }
 
 Teleop::~Teleop(){
@@ -37,9 +37,9 @@ Teleop::~Teleop(){
 
 void Teleop::TeleopNoSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 3));
-	//camera->capture();
-	//camera->get_infos();
-
+	camera->capture();
+	camera->get_infos();
+	camera->check_emergency_stop();
 	//Pick up the ball
 	if(controller2->getlStickY() >= 0){
 		shoot->PickupNoSensors(controller2->getlStickY());
@@ -110,8 +110,9 @@ void Teleop::TeleopNoSensors(){
 
 void Teleop::TeleopWithSensors(){
 	drive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 3));
-	//camera->capture();
-	//camera->get_infos();
+	camera->capture();
+	camera->get_infos();
+	camera->check_emergency_stop();
 	//Pick up the ball
 	if(controller2->getlStickY() >= 0){
 		shoot->Pickup(controller2->getlStickY());

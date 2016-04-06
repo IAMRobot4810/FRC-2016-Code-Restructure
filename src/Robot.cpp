@@ -44,10 +44,11 @@ private:
 
 		//auton = new Auto();
 		tele = new Teleop();
-
+		/*
 		CameraServer::GetInstance()->StartAutomaticCapture("cam0");
 		camImage = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
 		imaqFlip(camImage, camImage, FlipAxis::IMAQ_HORIZONTAL_AXIS);
+		*/
 		tele->shoot->raiseShoot->SetPosition(0.0);
 		tele->shoot->raiseShoot->SetPulseWidthPosition(0);
 		tele->shoot->raiseShoot->SetEncPosition(0);
