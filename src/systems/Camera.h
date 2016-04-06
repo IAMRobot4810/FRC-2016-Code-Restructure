@@ -14,6 +14,7 @@ private:
 	Image* image;
 public:
 	Camera();
+	Camera(std::string camId);
 	~Camera();
 
 	void capture();

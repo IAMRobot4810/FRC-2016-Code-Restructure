@@ -19,7 +19,7 @@ backToggle(true), currentPos(0.0d)
 	shoot = new Shooter();
 	def = new DefenseArm();
 
-	camera = new Camera();
+	camera = new Camera(camID);
 	camera->calibrate(50, 0, 0);
 	camera->calibrateAuto(50);
 }

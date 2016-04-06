@@ -2,13 +2,17 @@
 
 
 Camera::Camera(){
-	camera = new USBCamera(camID, false);
+	CameraServer::GetInstance()->StartAutomaticCapture(camID.c_str());
+	image = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
+	camera = nullptr;
+}
+
+Camera::Camera(std::string camId){
+	camera = new USBCamera(camId, false);
 	image = imaqCreateImage(IMAQ_IMAGE_RGB, 0);
 
 	camera->OpenCamera();
 	camera->StartCapture();
-
-	//CameraServer::GetInstance()->StartAutomaticCapture("cam0");
 }
 
 Camera::~Camera(){
@@ -24,6 +28,7 @@ void Camera::capture(){
 
 void Camera::get_infos(){
 	SmartDashboard::PutNumber("brightness", camera->GetBrightness());
+	SmartDashboard::PutBoolean("camera disconnect", camera->StatusIsFatal());
 
 }
 
