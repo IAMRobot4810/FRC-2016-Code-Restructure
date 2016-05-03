@@ -32,30 +32,35 @@ static const int rStickXAxis = 4;
 static const int rStickYAxis = 5;
 
 //Camera IDs
-static const std::string camID = "cam0";
-
-//GyroSensor IDs
-static const int gyroID = 0;
+static constexpr char const *camID = "cam1";
 
 //DriveSystem IDs
-static const int flTalID = 1; //7
-static const int rlTalID = 2; //8
-static const int frTalID = 3; //5
-static const int rrTalID = 4; //6
+static const int flTalID = 7; //1
+static const int rlTalID = 8; //2
+static const int frTalID = 5; //3
+static const int rrTalID = 6; //4
+static const int gyroID = 0;
+
+//Roller IDs
+static const int rollerTalID = 3; //8
+static const int rollerSolID = 2;
 
 //Shooter IDs
-static const int raiseShootID = 7; //4
+static const int raiseShootID = 4; //7
 static const int upLimitID = 4;
 static const int downLimitID = 5;
-static const int ballSenseID = 0;
 static const int shootSolID = 0;
-static const int lShooterID = 5; //1
-static const int rShooterID = 6; //2
+static const int lShooterID = 1; //5
+static const int rShooterID = 2; //6
+
+//ShootRotorEncoder IDs
 static const int lRPMSensorID = 1;
 static const int rRPMSensorID = 2;
-static const int pickerID = 8; //3
 
 //DefenseArm IDs
 static const int noidID = 1;
+
+//MultiTool IDs
+static const int ballSenseID = 0;
 
 #endif /* SRC_UTIL_DEVICEIDS_H_ */

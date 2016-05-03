@@ -5,71 +5,39 @@
  *      Author: 1750800404
  */
 
-#include "Shooter.h"
+#include "systems/mtsub/Shooter.h"
 
-Shooter::Shooter(){
-	raiseShoot = new CANTalon(raiseShootID);
+Shooter::Shooter(CANTalon *pivot, CANTalon *leftrotor, CANTalon *rightrotor,
+		DigitalInput *topswitch, DigitalInput *bottomswitch, Solenoid *puncher,
+		ShootRotorEncoder *leftrpmsensor, ShootRotorEncoder *rightrpmsensor){
+	raiseShoot = pivot;
 	raiseShoot->SetFeedbackDevice(CANTalon::CtreMagEncoder_Absolute);
-	UpLimit = new DigitalInput(upLimitID);
-	DownLimit = new DigitalInput(downLimitID);
-	ballSense = new DigitalInput(ballSenseID);
-	shootSol = new Solenoid(pcmID, shootSolID);
-	lShooter = new CANTalon(lShooterID);
-	rShooter = new CANTalon (rShooterID);
-	lRPMSensor = new DigitalInput(lRPMSensorID);
-	rRPMSensor = new DigitalInput(rRPMSensorID);
-	picker = new CANTalon(pickerID);
-	rpmTimerL = new Timer();
-	rpmTimerR = new Timer();
+	UpLimit = topswitch;
+	DownLimit = bottomswitch;
+	shootSol = puncher;
+	lShooter = leftrotor;
+	lShooter->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
+	lShooter->SetControlMode(CANTalon::kSpeed);
+	lShooter->SetPID(0.7, 0.0, 0.0);
+	lShooter->EnableControl();
+	rShooter = rightrotor;
+	rShooter->SetFeedbackDevice(CANTalon::CtreMagEncoder_Relative);
+	rShooter->SetControlMode(CANTalon::kSpeed);
+	rShooter->SetPID(0.7, 0.0, 0.0);
+	rShooter->EnableControl();
+	lRPMSensor = leftrpmsensor;
+	rRPMSensor = rightrpmsensor;
 }
 
 Shooter::~Shooter(){
 	delete raiseShoot;
 	delete UpLimit;
 	delete DownLimit;
-	delete ballSense;
 	delete shootSol;
 	delete lShooter;
 	delete rShooter;
 	delete lRPMSensor;
 	delete rRPMSensor;
-	delete picker;
-	delete rpmTimerL;
-	delete rpmTimerR;
-}
-
-//Detect if the ball is in the cradle
-bool Shooter::DetectBall(){
-	bool ball;
-	if(ballSense->Get()){
-		ball = true;
-	}
-	else{
-		ball = false;
-	}
-	return ball;
-}
-
-//Pickup the ball and stop when a ball is detected
-void Shooter::Pickup(float speed){
-	if(DetectBall() == false){
-		picker->Set(speed);
-		lShooter->Set(-(speed/rotorPickupDivisor));
-		rShooter->Set(speed/rotorPickupDivisor);
-	}
-	else{
-		picker->Set(0.0);
-		lShooter->Set(0.0);
-		rShooter->Set(0.0);
-	}
-	DetectBall();
-}
-
-//Pickup the ball if there's a sensor failure
-void Shooter::PickupNoSensors(float speed){
-	picker->Set(speed);
-	lShooter->Set(-(speed/rotorPickupDivisor));
-	rShooter->Set(speed/rotorPickupDivisor);
 }
 
 //Reset the raising and lowering encoder manually
@@ -85,7 +53,7 @@ void Shooter::Raise(float speed){
 			raiseShoot->Set(-speed);
 		}
 		else{
-			raiseShoot->Set(0.0);
+			raiseShoot->StopMotor();
 			ResetRaisePositionManual();
 		}
 	}
@@ -96,7 +64,7 @@ void Shooter::Raise(float speed){
 			raiseShoot->Set(-speed);
 		}
 		else{
-			raiseShoot->Set(0.0);
+			raiseShoot->StopMotor();
 			ResetRaisePositionManual();
 		}
 	}
@@ -104,7 +72,15 @@ void Shooter::Raise(float speed){
 
 //Raise manually when there's a sensor failure
 void Shooter::RaiseNoSensors(float speed){
+	raiseShoot->StopMotor();
+	if(raiseShoot->GetControlMode() == CANSpeedController::kPercentVbus){
 		raiseShoot->Set(-speed);
+	}
+	else{
+		raiseShoot->SetControlMode(CANSpeedController::kPercentVbus);
+		raiseShoot->EnableControl();
+		raiseShoot->Set(-speed);
+	}
 }
 
 //Lower manually, will stop at top limit
@@ -115,7 +91,7 @@ void Shooter::Lower(float speed){
 			raiseShoot->Set(speed);
 		}
 		else{
-			raiseShoot->Set(0.0);
+			raiseShoot->StopMotor();
 		}
 	}
 	else{
@@ -125,14 +101,22 @@ void Shooter::Lower(float speed){
 			raiseShoot->Set(speed);
 		}
 		else{
-			raiseShoot->Set(0.0);
+			raiseShoot->StopMotor();
 		}
 	}
 }
 
 //Lower manually when there's a sensor failure
 void Shooter::LowerNoSensors(float speed){
+	raiseShoot->StopMotor();
+	if(raiseShoot->GetControlMode() == CANSpeedController::kPercentVbus){
 		raiseShoot->Set(speed);
+	}
+	else{
+		raiseShoot->SetControlMode(CANSpeedController::kPercentVbus);
+		raiseShoot->EnableControl();
+		raiseShoot->Set(speed);
+	}
 }
 
 //Aim for the high goal from far
@@ -143,7 +127,7 @@ void Shooter::BombShotAim(){
 	}
 	else{
 		raiseShoot->SetControlMode(CANSpeedController::kPosition);
-		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD);
+		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD, shootPosF);
 		raiseShoot->EnableControl();
 		raiseShoot->Set(bombPos);
 	}
@@ -157,7 +141,7 @@ void Shooter::TurretShotAim(){
 	}
 	else{
 		raiseShoot->SetControlMode(CANSpeedController::kPosition);
-		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD);
+		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD, shootPosF);
 		raiseShoot->EnableControl();
 		raiseShoot->Set(turretPos);
 	}
@@ -169,13 +153,14 @@ void Shooter::LowGoalAim(float speed){
 		while(DownLimit->Get() == true){
 			raiseShoot->Set(speed);
 		}
-		raiseShoot->Set(0.0);
+		raiseShoot->StopMotor();
 	}
 	else{
-		raiseShoot->Set(0.0);
+		raiseShoot->StopMotor();
 	}
 }
 
+//Aim for a custom position
 void Shooter::CustomAim(double pos){
 	raiseShoot->StopMotor();
 	if(raiseShoot->GetControlMode() == CANSpeedController::kPosition){
@@ -183,67 +168,54 @@ void Shooter::CustomAim(double pos){
 	}
 	else{
 		raiseShoot->SetControlMode(CANSpeedController::kPosition);
-		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD);
+		raiseShoot->SetPID(shootPosP, shootPosI, shootPosD, shootPosF);
 		raiseShoot->EnableControl();
 		raiseShoot->Set(pos);
 	}
 }
 
-float Shooter::ReadRPM(DigitalInput *banner, Timer *time){
-	float rpmReading;
-	bool bannerToggle = true;
-	int reads = 0;
-	time->Reset();
-	time->Start();
-	while(time->Get() <= 0.05){
-		if(banner->Get() == false && bannerToggle){
-			bannerToggle = false;
-			reads++;
-		}
-		else if(banner->Get()){
-			bannerToggle = true;
-		} //Test this
-	}
-	time->Stop();
-	rpmReading = reads * 400; //1200
-	return rpmReading;
-}
-
-void Shooter::Shoot(int leftRPM, int rightRPM, float rollPow){
-	lShooter->Set(0.1);
-	rShooter->Set(-0.1);
-	picker->Set(rollPow);
-	if(leftRPM > 2400){
-		leftRPM = 2400;
-	}
-	if(rightRPM > 2400){
-		rightRPM = 2400;
-	}
-	for(int lPow = 0.1; ReadRPM(lRPMSensor, rpmTimerL) < (leftRPM - 200) || lPow <= 1.0; lPow += 0.1){
-		lShooter->Set(lPow);
-	}
-	for(int rPow = 0.1; ReadRPM(rRPMSensor, rpmTimerR) < (rightRPM - 200) || rPow <= 1.0; rPow -= 0.1){
-		rShooter->Set(-rPow);
+//Shoot with RPM readings
+void Shooter::RPMShoot(int leftRPM, int rightRPM){
+	//NEEDS TO BE FINISHED
+	lShooter->SetControlMode(CANTalon::kSpeed);
+	rShooter->SetControlMode(CANTalon::kSpeed);
+	lShooter->EnableControl();
+	rShooter->EnableControl();
+	while(lShooter->GetSpeed() > (-leftRPM + 300) || rShooter->GetSpeed() < (rightRPM - 300)){
+		lShooter->Set(-leftRPM);
+		rShooter->Set(rightRPM);
+		SmartDashboard::PutNumber("Left Shooter Speed", lShooter->GetSpeed());
+		SmartDashboard::PutNumber("Right Shooter Speed", rShooter->GetSpeed());
 	}
 	shootSol->Set(true);
-	Wait(1.0);
+	Wait(shooterWaitTime);
 	shootSol->Set(false);
-	lShooter->Set(0.0);
-	rShooter->Set(0.0);
-	picker->Set(0.0);
+	lShooter->StopMotor();
+	rShooter->StopMotor();
+}
+
+//Spin the rotors. Positive is outward, negative is inward.
+void Shooter::SpinRotors(float leftPow, float rightPow){
+	lShooter->SetControlMode(CANTalon::kPercentVbus);
+	rShooter->SetControlMode(CANTalon::kPercentVbus);
+	lShooter->EnableControl();
+	rShooter->EnableControl();
+	lShooter->Set(-leftPow);
+	rShooter->Set(rightPow);
 }
 
 //Shoot when there's a sensor failure
-void Shooter::ShootNoSensors(float leftPow, float rightPow, float rollPow){
-	lShooter->Set(leftPow);
-	rShooter->Set(-rightPow);
-	picker->Set(-rollPow);
+void Shooter::ShootNoSensors(float leftSpeed, float rightSpeed){
+	lShooter->SetControlMode(CANTalon::kPercentVbus);
+	rShooter->SetControlMode(CANTalon::kPercentVbus);
+	lShooter->EnableControl();
+	rShooter->EnableControl();
+	SpinRotors(leftSpeed, rightSpeed);
 	Wait(shooterRampTime);
 	shootSol->Set(true);
 	Wait(shooterWaitTime);
 	shootSol->Set(false);
-	lShooter->Set(0.0);
-	rShooter->Set(0.0);
-	picker->Set(0.0);
+	lShooter->StopMotor();
+	rShooter->StopMotor();
 }
 

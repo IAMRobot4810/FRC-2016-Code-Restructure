@@ -13,7 +13,7 @@
 
 class DefenseArm{
 public:
-	DefenseArm();
+	DefenseArm(Solenoid *pivot);
 	~DefenseArm();
 
 	Solenoid *noid;
@@ -21,6 +21,7 @@ public:
 
 	void Lower();
 	void Raise();
+
 private:
 protected:
 };

@@ -5,31 +5,19 @@
  *      Author: 1750800404
  */
 
-#include "DriveSystem.h"
+#include "systems/DriveSystem.h"
 
-DriveSystem::DriveSystem(){
-	flTal = new CANTalon(flTalID);
-	rlTal = new CANTalon(rlTalID);
-	frTal = new CANTalon(frTalID);
-	rrTal = new CANTalon(rrTalID);
-	flTal->SetFeedbackDevice(CANTalon::QuadEncoder);
-	rlTal->SetFeedbackDevice(CANTalon::QuadEncoder);
-	frTal->SetFeedbackDevice(CANTalon::QuadEncoder);
-	rrTal->SetFeedbackDevice(CANTalon::QuadEncoder);
-	roboDrive = new RobotDrive(flTal, rlTal, frTal, rrTal);
+DriveSystem::DriveSystem(RobotDrive *drivesystem, AnalogGyro *gyroscope){
+	roboDrive = drivesystem;
 	roboDrive->SetInvertedMotor(RobotDrive::kFrontLeftMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kRearLeftMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
 	roboDrive->SetInvertedMotor(RobotDrive::kRearRightMotor, true);
 	roboDrive->SetExpiration(0.1);
-	gyr = new GyroSensor;
+	gyr = gyroscope;
 }
 
 DriveSystem::~DriveSystem(){
-	delete flTal;
-	delete rlTal;
-	delete frTal;
-	delete rrTal;
 	delete roboDrive;
 }
 
@@ -41,16 +29,20 @@ void DriveSystem::DriveTank(float left, float right){
 	roboDrive->TankDrive(left, right, false);
 }
 
+void DriveSystem::ResetGyro(){
+	gyr->Reset();
+}
+
 void DriveSystem::RotatetoAngle(double angle, double speed){
-	if(gyr->GyroAngleRead() < angle){
-		while(gyr->GyroAngleRead() < angle){
-			roboDrive->ArcadeDrive(0.0, PMotorPower(gyr->GyroAngleRead(), angle, turnAngleP, speed, -speed), false);
+	if(gyr->GetAngle() < angle){
+		while(gyr->GetAngle() < angle){
+			roboDrive->ArcadeDrive(0.0, PMotorPower(gyr->GetAngle(), angle, turnAngleP, speed, -speed), false);
 		}
 		roboDrive->ArcadeDrive(0.0, 0.0, false);
 	}
-	else if(gyr->GyroAngleRead() > angle){
-		while(gyr->GyroAngleRead() < angle){
-			roboDrive->ArcadeDrive(0.0, PMotorPower(gyr->GyroAngleRead(), angle, turnAngleP, speed, -speed), false);
+	else if(gyr->GetAngle() > angle){
+		while(gyr->GetAngle() < angle){
+			roboDrive->ArcadeDrive(0.0, PMotorPower(gyr->GetAngle(), angle, turnAngleP, speed, -speed), false);
 		}
 		roboDrive->ArcadeDrive(0.0, 0.0, false);
 	}

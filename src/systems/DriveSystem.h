@@ -10,28 +10,25 @@
 #ifndef DRIVESYSTEM_H
 #define DRIVESYSTEM_H
 
+#include "AnalogGyro.h"
 #include "CANTalon.h"
 #include "RobotDrive.h"
 #include "Timer.h"
-#include "GyroSensor.h"
 #include "util/PIDStuff.h"
 #include "util/ConstantVals.h"
 
 class DriveSystem{
 
 public:
-	DriveSystem();
+	DriveSystem(RobotDrive *drivesystem, AnalogGyro *gyroscope);
 	~DriveSystem();
 
-	CANTalon *flTal;
-	CANTalon *rlTal;
-	CANTalon *frTal;
-	CANTalon *rrTal;
 	RobotDrive *roboDrive;
-	GyroSensor *gyr;
+	AnalogGyro *gyr;
 
 	void DriveArcade(float straight, float rotate);
 	void DriveTank(float left, float right);
+	void ResetGyro();
 	void RotatetoAngle(double angle, double speed);
 	void TimeDrive(float straight, float rotate, int seconds);
 

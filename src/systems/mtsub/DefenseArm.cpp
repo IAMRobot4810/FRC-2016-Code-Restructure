@@ -5,11 +5,10 @@
  *      Author: 1750800404
  */
 
-#include "DefenseArm.h"
+#include "systems/mtsub/DefenseArm.h"
 
-DefenseArm::DefenseArm(){
-	noid = new Solenoid(pcmID, noidID);
-	Low = false;
+DefenseArm::DefenseArm(Solenoid *pivot) : Low(false){
+	noid = pivot;
 }
 
 DefenseArm::~DefenseArm(){
@@ -17,11 +16,11 @@ DefenseArm::~DefenseArm(){
 }
 
 void DefenseArm::Lower(){
-	noid->Set(true);
 	Low = true;
+	noid->Set(Low);
 }
 
 void DefenseArm::Raise(){
-	noid->Set(false);
 	Low = false;
+	noid->Set(Low);
 }

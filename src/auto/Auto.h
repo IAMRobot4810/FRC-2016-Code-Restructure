@@ -8,24 +8,29 @@
 #ifndef SRC_AUTO_AUTO_H_
 #define SRC_AUTO_AUTO_H_
 
-#include "systems/DefenseArm.h"
+#include "systems/MultiTool.h"
 #include "systems/DriveSystem.h"
-#include "systems/Shooter.h"
 
 class Auto{
+
 public:
-	Auto();
+	Auto(DriveSystem *autoDrive, MultiTool *autoTool);
 	~Auto();
 
-	DefenseArm *def;
-	DriveSystem *drv;
-	Shooter *sht;
+	DriveSystem *aDrive;
+	MultiTool *aTool;
 
-	void RegularAuton();
-	void TerrainAuton();
+	void LowPortAuton();
+	void RockRoughAuton();
+	void MoatRampartsAuton();
+	void DoorAuton();
+	void SpyAuton();
+	void NoAuton();
 
 private:
+
 protected:
+
 };
 
 #endif /* SRC_AUTO_AUTO_H_ */

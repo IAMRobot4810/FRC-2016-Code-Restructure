@@ -7,33 +7,54 @@
 
 #include "Auto.h"
 
-Auto::Auto(){
-	def = new DefenseArm();
-	drv = new DriveSystem();
-	sht = new Shooter();
+Auto::Auto(DriveSystem *autoDrive, MultiTool *autoTool){
+	aDrive = autoDrive;
+	aTool = autoTool;
 }
 
 Auto::~Auto(){
-	delete def;
-	delete drv;
-	delete sht;
+	delete aDrive;
+	delete aTool;
 }
 
-void Auto::RegularAuton(){
-	def->Lower();
+void Auto::LowPortAuton(){
+	aTool->def->Lower();
 	Wait(0.5);
-	drv->TimeDrive(0.5, 0.0, 1.0);
+	aDrive->TimeDrive(0.5, 0.0, 1.0);
 	Wait(0.25);
-	sht->Lower(0.75);
+	aTool->shooty->Lower(0.75);
 	Wait(0.75);
-	sht->raiseShoot->Set(0.0);
-	drv->TimeDrive(0.75, 0.0, 2.5);
+	aTool->shooty->raiseShoot->Set(0.0);
+	aDrive->TimeDrive(0.75, 0.0, 2.5);
+	Wait(1.0);
+	//tele->drive->RotatetoAngle(45, 0.75);
+	aTool->shooty->BombShotAim();
+}
+
+void Auto::RockRoughAuton(){
+	aTool->def->Raise();
+	aTool->shooty->BombShotAim();
+	aDrive->TimeDrive(0.75, 0.0, 3.5);
 	Wait(5.0);
 }
 
-void Auto::TerrainAuton(){
-	def->Raise();
-	Wait(0.0);
-	sht->Raise(0.15);
-	drv->TimeDrive(0.75, 0.0, 5.0);
+void Auto::MoatRampartsAuton(){
+	aTool->def->Raise();
+	aTool->shooty->BombShotAim();
+	aDrive->TimeDrive(0.95, 0.0, 3.0);
+	Wait(5.0);
+}
+
+void Auto::DoorAuton(){
+
+}
+
+void Auto::SpyAuton(){
+	aTool->def->Lower();
+	aTool->shooty->BombShotAim();
+	aTool->shootBall(10000, 10000, true);
+}
+
+void Auto::NoAuton(){
+	Wait(15.0);
 }

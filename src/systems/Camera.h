@@ -9,17 +9,22 @@
 #include "util/DeviceIDs.h"
 
 class Camera{
+
 private:
-	USBCamera* camera;
-	Image* image;
+
 public:
-	Camera();
+	Camera(USBCamera *camera, CameraServer *camServer);
 	~Camera();
 
+	USBCamera *cam;
+	CameraServer *cServer;
+	Image *image;
+
 	void capture();
+	void stopCapture();
 	void get_infos();
 	void calibrate(unsigned int brightness, unsigned int exposure, unsigned int whitebalance);
-	void calibrateAuto(int brightness);
+	void calibrateAuto(unsigned int brightness);
 };
 
 
