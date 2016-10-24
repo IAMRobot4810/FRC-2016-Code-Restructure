@@ -211,9 +211,9 @@ void IAMRobot::TeleopPeriodic()
 		//tele->TeleopWithSensors();
 	}*/
 
-	if(camOn == false){
+	//if(camOn == false){
 		tele->TeleopWithSensors();
-	}
+	/*}
 	else{
 		cammy->capture();
 		tele->TeleopWithSensors();
@@ -221,7 +221,7 @@ void IAMRobot::TeleopPeriodic()
 			cammy->stopCapture();
 			camOn = false;
 		}
-	}
+	}*/
 }
 
 void IAMRobot::TestPeriodic()

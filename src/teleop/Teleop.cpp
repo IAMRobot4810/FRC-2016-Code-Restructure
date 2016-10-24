@@ -59,14 +59,12 @@ Teleop::Teleop(DriveSystem *teledrive, MultiTool *teletool, StickControl *firstc
 }
 
 Teleop::~Teleop(){
-	delete controller1;
-	delete controller2;
 	delete conv1;
 	delete conv2;
 }
 
 void Teleop::TeleopNoSensors(){
-	tDrive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 3));
+	tDrive->DriveTank(conv1->stickOut(controller1, lStickYAxis), conv1->stickOut(controller1, rStickYAxis));
 
 	//To raise and lower the roller
 	if(controller2->aButtonGet() && a2Toggle){
@@ -140,7 +138,7 @@ void Teleop::TeleopNoSensors(){
 }
 
 void Teleop::TeleopWithSensors(){
-	tDrive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 3));
+	tDrive->DriveTank(conv1->stickOut(controller1, 1), conv1->stickOut(controller1, 5));
 
 	//To raise and lower the roller
 	if(controller2->aButtonGet() && a2Toggle){

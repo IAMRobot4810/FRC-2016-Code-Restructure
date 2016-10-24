@@ -35,23 +35,23 @@ static const int rStickYAxis = 5;
 static constexpr char const *camID = "cam1";
 
 //DriveSystem IDs
-static const int flTalID = 7; //1
-static const int rlTalID = 8; //2
-static const int frTalID = 5; //3
-static const int rrTalID = 6; //4
+static const int flTalID = 1;
+static const int rlTalID = 2;
+static const int frTalID = 3;
+static const int rrTalID = 4;
 static const int gyroID = 0;
 
 //Roller IDs
-static const int rollerTalID = 3; //8
+static const int rollerTalID = 7;
 static const int rollerSolID = 2;
 
 //Shooter IDs
-static const int raiseShootID = 4; //7
+static const int raiseShootID = 8;
 static const int upLimitID = 4;
 static const int downLimitID = 5;
 static const int shootSolID = 0;
-static const int lShooterID = 1; //5
-static const int rShooterID = 2; //6
+static const int lShooterID = 5;
+static const int rShooterID = 6;
 
 //ShootRotorEncoder IDs
 static const int lRPMSensorID = 1;
